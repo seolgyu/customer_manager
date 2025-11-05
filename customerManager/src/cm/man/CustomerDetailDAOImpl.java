@@ -1,5 +1,5 @@
 package cm.man;
 
-public class CustomerDetailDAOImpl {
+public interface CustomerDetailDAOImpl {
 
 }

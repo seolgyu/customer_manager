@@ -1,5 +1,5 @@
 package cm.man;
 
-public class CustomerDetailDAO {
+public class CustomerDetailDAO implements CustomerDetailDAOImpl {
 
 }
