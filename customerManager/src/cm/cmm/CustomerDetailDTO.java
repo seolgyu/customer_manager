@@ -12,8 +12,14 @@ public class CustomerDetailDTO {
     private String dormancy;
     private String class_Id;
     private String class_Level;
-    private String remaim_Mil;
+    private String remain_Mil;
     
+	public String getRemain_Mil() {
+		return remain_Mil;
+	}
+	public void setRemain_Mil(String remain_Mil) {
+		this.remain_Mil = remain_Mil;
+	}
 	public String getId() {
 		return id;
 	}
@@ -80,10 +86,5 @@ public class CustomerDetailDTO {
 	public void setClass_Level(String class_Level) {
 		this.class_Level = class_Level;
 	}
-	public String getRemaim_Mil() {
-		return remaim_Mil;
-	}
-	public void setRemaim_Mil(String remaim_Mil) {
-		this.remaim_Mil = remaim_Mil;
-	}
+
 }

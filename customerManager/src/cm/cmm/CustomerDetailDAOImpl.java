@@ -34,8 +34,8 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " )"
 					+ " WHERE rn = 1"
 					+ " )"
-					+ " SELECT c.CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, cC.CLASS_LEVEL, NVL(REMAIN_MIL, 0)"
-					+ "        DORMANCY"
+					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
+	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
 					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID";
@@ -43,6 +43,22 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setEmail(rs.getString("email"));
+				dto.setAddress(rs.getString("address"));
+				dto.setReg(rs.getString("reg"));
+				dto.setRrn(rs.getString("rrn"));
+				dto.setClass_Level(rs.getString("class_Level"));
+				dto.setRemain_Mil(rs.getString("remain_Mil"));
+				
+				list.add(dto);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

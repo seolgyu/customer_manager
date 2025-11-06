@@ -25,12 +25,12 @@ public class CustomerDetailUI {
 		
 		while (starting) {
             try {
-                System.out.println("|| 1.초기설정 || 2.뒤로가기 ||");
+                System.out.println("|| 1.고객 전체 내역 조회 || 2.뒤로가기 ||");
                 ch = Integer.parseInt(br.readLine());
 
                 switch (ch) {
                     case 1:
-                        System.out.println("초기설정");;
+                    	CustomerDetailListAll();
                         break;
                     case 2:
                     		System.out.println("임시 뒤로가기(프로그램 종료)");
@@ -49,7 +49,15 @@ public class CustomerDetailUI {
 		System.out.println("조회된 건 수" + list.size());
 		
 		for(CustomerDetailDTO dto : list) {
-			System.out.println("테스트");
+			System.out.print(dto.getId() + "\t");
+			System.out.print(dto.getName() + "\t");
+			System.out.print(dto.getTel() + "\t");
+			System.out.print(dto.getEmail() + "\t");
+			System.out.print(dto.getAddress() + "\t");
+			System.out.print(dto.getReg() + "\t");
+			System.out.print(dto.getRrn() + "\t");
+			System.out.print(dto.getClass_Level() + "\t");
+			System.out.println(dto.getRemain_Mil());
 		}
 	}
 }
