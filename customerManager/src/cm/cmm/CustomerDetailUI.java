@@ -1,9 +1,11 @@
-package cm.man;
+package cm.cmm;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class CustomerDetailUI {
+	private CustomerDetailDAO dao = new CustomerDetailDAOImpl();
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 	/**
@@ -40,5 +42,14 @@ public class CustomerDetailUI {
             		e.printStackTrace();
             }
         }
+	}
+	protected void CustomerDetailListAll() {
+		System.out.println("고객 전체 내역 조회");
+		List<CustomerDetailDTO> list = dao.CustomerDetailList();
+		System.out.println("조회된 건 수" + list.size());
+		
+		for(CustomerDetailDTO dto : list) {
+			System.out.println("테스트");
+		}
 	}
 }

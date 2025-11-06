@@ -1,4 +1,4 @@
-package cm.man;
+package cm.cmm;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package cm.man;
+package cm.cmm;
 
 public class CustomerDetail_TestApp {
 
