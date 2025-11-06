@@ -4,8 +4,18 @@ import java.util.List;
 
 public interface CustomerDetailDAOtwo {
 	/**
-	고객 전체를 조회하는 리스트
-	@author	김설규
+	이름으로 고객을 검색하는 메소드
+	@param String
+	@return List<CustomerDetailDTO>
+	@author	권혁찬
 	*/
-	public List<CustomerDetailDTO> CustomerDetailList();
+	public List<CustomerDetailDTO> customerFindByName(String name);
+	
+	/**
+	이름으로 고객을 검색하는 메소드
+	@param int
+	@return List<CustomerDetailDTO>
+	@author	권혁찬
+	*/
+	public List<CustomerDetailDTO> customerFindByTotalCost(int cost);
 }
