@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class CustomerDetailUI {
+public class CustomerDetailUItwo {
 	private CustomerDetailDAO dao = new CustomerDetailDAOImpl();
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
@@ -15,7 +15,7 @@ public class CustomerDetailUI {
 	@param	라파미터2
 	@return	리턴 값
 	*/
-	public CustomerDetailUI() {
+	public CustomerDetailUItwo() {
 		CustomerDetailMeun();
 	}
 	
