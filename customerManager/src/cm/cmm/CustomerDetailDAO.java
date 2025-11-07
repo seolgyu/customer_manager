@@ -18,4 +18,15 @@ public interface CustomerDetailDAO {
 	@author	김설규
 	*/
 	public List<CustomerDetailDTO> CustomerDetailOrderBtween(int firstNumber, int SecondNumber);
+	/**
+	ID로 검색하여 고객의 모든 주문내역 조회
+	@author	김설규
+	*/
+	public List<CustomerDetailDTO> CustomerOrderListFindId(String id);
+	/**
+	입력된 마일리지 값의 이상 보유한 고객 조회
+	@author	김설규
+	*/
+	public List<CustomerDetailDTO> CustomerMileageMoreList(int moreMileage);
+	
 }

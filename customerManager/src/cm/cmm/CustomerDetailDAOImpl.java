@@ -164,7 +164,8 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " JOIN order_details or_det ON c.CUS_ID = or_det.CUS_ID"
-					+ " WHERE or_det.TOTAL_COST BETWEEN ? AND ?";
+					+ " WHERE or_det.TOTAL_COST BETWEEN ? AND ?"
+					+ " ORDER BY NAME";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -201,5 +202,120 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 		
 		return list;
 	}
+	
+	/**
+	ID로 검색하여 고객의 모든 주문내역 조회
+	@author	김설규
+	@param String id
+	@return dto
+	*/
+	@Override
+	public List<CustomerDetailDTO> CustomerOrderListFindId(String id) {
+		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT cus.CUS_ID ,cus.NAME, ord_det.ORDER_CODE, ord_det.ORDER_PRICE, ord_det.ORDER_DATE"
+					+ " FROM customer cus, order_Details ord_det"
+					+ " WHERE cus.CUS_ID = ord_det.CUS_ID"
+					+ " AND cus.CUS_ID = ?"
+					+ " ORDER BY ord_det.ORDER_DATE";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setOrder_code(rs.getString("order_code"));
+				dto.setOrder_price(rs.getString("order_price"));
+				dto.setOrder_date(rs.getString("order_date").toString());
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return list;
+	}
+	/**
+	입력된 마일리지 값의 이상 보유한 고객 조회
+	@author	김설규
+	@param int moreMileage
+	@return list
+	*/
+	@Override
+	public List<CustomerDetailDTO> CustomerMileageMoreList(int moreMileage) {
+		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql =  "with CUS_MILE AS("
+					+ "    SELECT CUS_ID, REMAIN_MIL, MILEAGE_DATE"
+					+ " FROM ("
+					+ "    SELECT MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID,"
+					+ "           ROW_NUMBER() OVER (PARTITION BY CUS_ID ORDER BY MILEAGE_DATE DESC, MILEAGE_ID DESC) as rn"
+					+ "    FROM customer_Mileage"
+					+ " )"
+					+ " WHERE rn = 1"
+					+ " )"
+					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
+	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
+					+ " FROM customer c"
+					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
+					+ " AND REMAIN_MIL >= ?"
+					+ " ORDER BY NAME";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, moreMileage);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setEmail(rs.getString("email"));
+				dto.setAddress(rs.getString("address"));
+				dto.setReg(rs.getString("reg"));
+				dto.setRrn(rs.getString("rrn"));
+				dto.setClass_Level(rs.getString("class_Level"));
+				dto.setRemain_Mil(rs.getString("remain_Mil"));
+				dto.setDormancy(rs.getString("dormancy"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
+	
 	
 }
