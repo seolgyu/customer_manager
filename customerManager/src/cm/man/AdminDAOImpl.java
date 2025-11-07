@@ -23,8 +23,8 @@ public class AdminDAOImpl  implements AdminDAO {
 			sql = "INSERT INTO ADMIN_TAB( ADM_ID, ADM_PWD) VALUES (?,?)";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getAdm_Id());
-			pstmt.setString(2, dto.getAdm_Pwd());
+			pstmt.setString(1, dto.getAdmId());
+			pstmt.setString(2, dto.getAdmPwd());
 			result = pstmt.executeUpdate();			
 			conn.commit();
 			
@@ -65,8 +65,8 @@ public class AdminDAOImpl  implements AdminDAO {
 			while (rs.next()) {
 				AdminDTO dto = new AdminDTO();
 				
-				dto.setAdm_Id(rs.getString("Adm_Id"));
-				dto.setAdm_Pwd(rs.getString("Adm_Pwd"));
+				dto.setAdmId(rs.getString("ADM_ID"));
+				dto.setAdmPwd(rs.getString("ADM_PWD"));
 				
 				list.add(dto);
 			}

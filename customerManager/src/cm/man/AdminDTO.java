@@ -2,20 +2,21 @@ package cm.man;
 // 직원정보
 public class AdminDTO {
 
-			private String adm_Id;
-			private String adm_Pwd;
-			public String getAdm_Id() {
-				return adm_Id;
+			private String admId;
+			private String admPwd;
+			public String getAdmId() {
+				return admId;
 			}
-			public void setAdm_Id(String admId) {
-				this.adm_Id = admId;
+			public void setAdmId(String admId) {
+				this.admId = admId;
 			}
-			public String getAdm_Pwd() {
-				return adm_Pwd;
+			public String getAdmPwd() {
+				return admPwd;
 			}
-			public void setAdm_Pwd(String admPwd) {
-				this.adm_Pwd = admPwd;
+			public void setAdmPwd(String admPwd) {
+				this.admPwd = admPwd;
 			}
-		
+			
+
 
 }

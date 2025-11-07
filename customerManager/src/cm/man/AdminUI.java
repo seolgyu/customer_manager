@@ -44,10 +44,10 @@ public class AdminUI {
 			AdminDTO dto = new AdminDTO();
 			
 			System.out.print("아이디 ?  * admin + 숫자 조합으로 생성하세요");
-			dto.setAdm_Id(br.readLine());
+			dto.setAdmId(br.readLine());
 			
 			System.out.print("패스워드 ? ");
-			dto.setAdm_Pwd(br.readLine());
+			dto.setAdmPwd(br.readLine());
 			
 			dao.insertAdmin(dto);
 			System.out.println("관리자로 등록되었습니👍");
@@ -72,8 +72,8 @@ public class AdminUI {
 		System.out.println("\n[관리자 전체 리스트]");
 		List<AdminDTO> list = dao.listAdmin();
 		for(AdminDTO dto : list) {
-			System.out.print(dto.getAdm_Id() + "\t");
-			System.out.println(dto.getAdm_Pwd());
+			System.out.print(dto.getAdmId() + "\t");
+			System.out.println(dto.getAdmPwd());
 		}
 		
 		System.out.println();
