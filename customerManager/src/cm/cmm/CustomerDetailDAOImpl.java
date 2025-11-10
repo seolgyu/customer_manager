@@ -19,7 +19,6 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 	*/
 	@Override
 	public List<CustomerDetailDTO> CustomerDetailList() {
-		
 		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -315,6 +314,192 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 		}
 		
 		return list;
+	}
+	
+	/**
+	고객 보유 마일리지 A이상 B이하를 조회하는 리스트
+	@author	김설규
+	@param int firstNumber 
+	@param int secondNumber
+	@return list
+	*/
+	@Override
+	public List<CustomerDetailDTO> CustomerMileageBtween(int firstNumber, int secondNumber,  int page, int rows) {
+		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		// 페이지 계산
+		int startRow = (page - 1) * rows + 1;
+		int endRow = page * rows;
+		
+		try {
+			sql =  " SELECT * FROM ("
+					+ " SELECT ROWNUM rnum, tb.* FROM ("
+					+ " with CUS_MILE AS("
+					+ "	SELECT CUS_ID, REMAIN_MIL, MILEAGE_DATE"
+					+ " FROM ("
+					+ "	SELECT MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID,"
+					+ "			ROW_NUMBER() OVER (PARTITION BY CUS_ID ORDER BY MILEAGE_DATE DESC, MILEAGE_ID DESC) as rn"
+					+ "	FROM customer_Mileage"
+					+ " )"
+					+ " WHERE rn = 1"
+					+ " )"
+					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN,"
+					+ "		cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
+					+ " FROM customer c"
+					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
+					+ " AND REMAIN_MIL BETWEEN ? AND ?"
+					+ " ORDER BY NAME"
+					+ "    ) tb WHERE ROWNUM <= ?"
+					+ " ) WHERE rnum >= ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, firstNumber);
+			pstmt.setInt(2, secondNumber);
+			pstmt.setInt(3, endRow);
+			pstmt.setInt(4, startRow);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setEmail(rs.getString("email"));
+				dto.setAddress(rs.getString("address"));
+				dto.setReg(rs.getString("reg"));
+				dto.setRrn(rs.getString("rrn"));
+				dto.setClass_Level(rs.getString("class_Level"));
+				dto.setRemain_Mil(rs.getString("remain_Mil"));
+				dto.setDormancy(rs.getString("dormancy"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
+	@Override
+	public int CustomerMileageBtweenCount(int firstNumber, int SecondNumber) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql =  "with CUS_MILE AS("
+					+ " SELECT CUS_ID, REMAIN_MIL, MILEAGE_DATE"
+					+ " FROM ("
+					+ " SELECT MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID,"
+					+ "         ROW_NUMBER() OVER (PARTITION BY CUS_ID ORDER BY MILEAGE_DATE DESC, MILEAGE_ID DESC) as rn"
+					+ " FROM customer_Mileage"
+					+ " )"
+					+ " WHERE rn = 1"
+					+ " )"
+					+ " SELECT COUNT(*)"
+					+ " FROM customer c"
+					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
+					+ " AND REMAIN_MIL BETWEEN ? AND ?"
+					+ " ORDER BY NAME";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, firstNumber);
+			pstmt.setInt(2, SecondNumber);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return result;
+	}
+	/**
+	생일인 고객을 조회하는 리스트
+	@author	김설규
+	@return list
+	*/
+	@Override
+	public List<CustomerDetailDTO> CustomerDetailBirth() {
+		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql =  "with CUS_MILE AS("
+					+ "	SELECT CUS_ID, REMAIN_MIL, MILEAGE_DATE"
+					+ " FROM ("
+					+ "	SELECT MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID,"
+					+ "			ROW_NUMBER() OVER (PARTITION BY CUS_ID ORDER BY MILEAGE_DATE DESC, MILEAGE_ID DESC) as rn"
+					+ "	FROM customer_Mileage"
+					+ " )"
+					+ " WHERE rn = 1"
+					+ " )"
+					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN,"
+					+ "		cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
+					+ " FROM customer c"
+					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
+					+ " AND substr(c.rrn,3, 4) = TO_CHAR(SYSDATE, 'MMDD')"
+					+ " ORDER BY NAME";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setEmail(rs.getString("email"));
+				dto.setAddress(rs.getString("address"));
+				dto.setReg(rs.getString("reg"));
+				dto.setRrn(rs.getString("rrn"));
+				dto.setClass_Level(rs.getString("class_Level"));
+				dto.setRemain_Mil(rs.getString("remain_Mil"));
+				dto.setDormancy(rs.getString("dormancy"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	
 	}
 	
 	

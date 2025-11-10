@@ -28,5 +28,15 @@ public interface CustomerDetailDAO {
 	@author	김설규
 	*/
 	public List<CustomerDetailDTO> CustomerMileageMoreList(int moreMileage);
-	
+	/**
+	고객 보유 마일리지 A이상 B이하를 조회하는 리스트
+	@author	김설규
+	*/
+	public List<CustomerDetailDTO> CustomerMileageBtween(int firstNumber, int SecondNumber, int page, int rows);
+	int CustomerMileageBtweenCount(int firstNumber, int SecondNumber);
+	/**
+	생일인 고객을 조회하는 리스트
+	@author	김설규
+	*/
+	public List<CustomerDetailDTO> CustomerDetailBirth();
 }
