@@ -15,6 +15,10 @@ public class CustomerDetailUItwo {
 	@param	라파미터2
 	@return	리턴 값
 	*/
+	
+	public static void main(String[] args) {
+		new CustomerDetailUItwo().CustomerDetailMeun();
+	}
 	public CustomerDetailUItwo() {
 		CustomerDetailMeun();
 	}
@@ -25,19 +29,20 @@ public class CustomerDetailUItwo {
 		
 		while (starting) {
             try {
-                System.out.println("|| 1.고객 전체 내역 조회 || 2.뒤로가기 ||");
+                System.out.println("|| 1.고객 이름 검색 || 2.구매 금액으로 고객 검색 || 3.뒤로가기");
                 ch = Integer.parseInt(br.readLine());
-
-                switch (ch) {
-                    case 1:
-                    	customerFindByName();
-                        break;
-                    case 2:
-                    	customerFindByTotalCost();
-                    	break;
-                    case 3: 
-                    	System.out.println("임시 뒤로가기(프로그램 종료)");
-                		System.exit(0);
+                if(ch == 3) {
+                	System.out.println("임시 뒤로가기(프로그램 종료)");
+            		System.exit(0);
+                }
+                
+                switch(ch) {
+                case 1:
+                	customerFindByName();
+                    break;
+                case 2:
+                	customerFindByTotalCost();
+                	break;
                 }
             } catch (NumberFormatException e) {
             		e.printStackTrace();
@@ -70,7 +75,8 @@ public class CustomerDetailUItwo {
 				List<CustomerDetailDTO> list = dao2.customerFindByName(name, page, rows);
 
 				System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
-				System.out.println("||고객ID	||		이름		||		연락처		||		이메일		||		주소		||		등록일		||		주민번호		||		고객등급		||		보유마일리지(단위 : 포인트)");
+				System.out.printf("|| 고객ID ||  이름  ||       연락처      ||         이메일         ||             주소             ||"
+						+ "          등록일          ||      주민번호      ||고객등급||보유마일리지\n");
 				
 				if (list.isEmpty() && page > 1) {
 					System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
@@ -79,15 +85,15 @@ public class CustomerDetailUItwo {
 				}
 
 				for (CustomerDetailDTO dto : list) {
-					System.out.print(dto.getId() + "\t\t");
-					System.out.print(dto.getName() + "\t\t");
-					System.out.print(dto.getTel() + "\t\t");
-					System.out.print(dto.getEmail() + "\t\t");
-					System.out.print(dto.getAddress() + "\t\t");
-					System.out.print(dto.getReg() + "\t\t");
-					System.out.print(dto.getRrn() + "\t\t");
-					System.out.print(dto.getClass_Level() + "\t\t");
-					System.out.println(dto.getRemain_Mil());
+					System.out.printf("%-12s", dto.getId());
+					System.out.printf("%-8s",dto.getName());
+					System.out.printf("%-20s",dto.getTel());
+					System.out.printf("%-25s",dto.getEmail());
+					System.out.printf("%-25s",dto.getAddress());
+					System.out.printf("%-25s",dto.getReg());
+					System.out.printf("%-20s",dto.getRrn());
+					System.out.printf("%-10s",dto.getClass_Level());
+					System.out.printf("%-10s\n",dto.getRemain_Mil());
 				}
 				
 				System.out.println("----------------------------------------------------------------------------------");
@@ -148,9 +154,10 @@ public class CustomerDetailUItwo {
 			int totalPage = (int) (Math.ceil((double) totalData / rows));
 			
 			while(true) {
-				List<CustomerDetailDTO> list = dao2.customerFindByTotalCost(cost, totalPage, rows);
+				List<CustomerDetailDTO> list = dao2.customerFindByTotalCost(cost, page, rows);
 				System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
-				System.out.println("||고객ID	||		이름		||		연락처		||		이메일		||		주소		||		등록일		||		주민번호		||		고객등급		||		보유마일리지(단위 : 포인트)");
+				System.out.printf("|| 고객ID ||  이름  ||       연락처      ||         이메일         ||             주소             ||"
+						+ "      등록일      ||      주민번호      ||고객등급||보유마일리지\n");
 				if (list.isEmpty() && page > 1) {
 					System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
 					page--;
@@ -158,15 +165,15 @@ public class CustomerDetailUItwo {
 				}
 				
 				for (CustomerDetailDTO dto : list) {
-					System.out.print(dto.getId() + "\t\t");
-					System.out.print(dto.getName() + "\t\t");
-					System.out.print(dto.getTel() + "\t\t");
-					System.out.print(dto.getEmail() + "\t\t");
-					System.out.print(dto.getAddress() + "\t\t");
-					System.out.print(dto.getReg() + "\t\t");
-					System.out.print(dto.getRrn() + "\t\t");
-					System.out.print(dto.getClass_Level() + "\t\t");
-					System.out.println(dto.getRemain_Mil());
+					System.out.printf("%-12s", dto.getId());
+					System.out.printf("%-8s",dto.getName());
+					System.out.printf("%-20s",dto.getTel());
+					System.out.printf("%-25s",dto.getEmail());
+					System.out.printf("%-25s",dto.getAddress());
+					System.out.printf("%-25s",dto.getReg());
+					System.out.printf("%-20s",dto.getRrn());
+					System.out.printf("%-10s",dto.getClass_Level());
+					System.out.printf("%-10s\n",dto.getRemain_Mil());
 				}
 				System.out.println("----------------------------------------------------------------------------------");
 				
