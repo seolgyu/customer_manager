@@ -9,7 +9,8 @@ public interface CustomerDetailDAOtwo {
 	@return List<CustomerDetailDTO>
 	@author	권혁찬
 	*/
-	public List<CustomerDetailDTO> customerFindByName(String name);
+	public List<CustomerDetailDTO> customerFindByName(String name, int page, int rows);
+	int dataCountByName(String name);
 	
 	/**
 	이름으로 고객을 검색하는 메소드
@@ -17,5 +18,8 @@ public interface CustomerDetailDAOtwo {
 	@return List<CustomerDetailDTO>
 	@author	권혁찬
 	*/
-	public List<CustomerDetailDTO> customerFindByTotalCost(int cost);
+	public List<CustomerDetailDTO> customerFindByTotalCost(int cost, int page, int rows);
+	public int dataCountByTotalCost(int cost);
+
+	
 }
