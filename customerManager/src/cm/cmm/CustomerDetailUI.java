@@ -19,7 +19,7 @@ public class CustomerDetailUI {
 		while (starting) {
             try {
                 System.out.printf("|| 1.고객 전체 내역 조회 || 2.고객 ID 조회 || 3.고객 총 구매금액 범위 조건 조회 || 4.고객 주문내역 ID조회 ||"
-                		+ "5. 일정 값 이상 마일리지 고객 조회 ||%n||6.고객 보유마일리지 범위 조건 조회||7.생일 고객 조회||8.뒤로가기");
+                		+ "5. 일정 값 이상 마일리지 고객 조회 ||%n||6.고객 보유마일리지 범위 조건 조회||7.생일 고객 조회||8. 올해 월별 고객 상품 구매 수||9. 휴면대상 고객 조회||10.뒤로가기");
                 ch = Integer.parseInt(br.readLine());
 
                 switch (ch) {
@@ -45,6 +45,12 @@ public class CustomerDetailUI {
                     	CustomerDetailBirth();
                     	break;
                     case 8:
+                    	MonthlyThisyearOrderCnt();
+                    	break;
+                    case 9:
+                    	CustomerDormancyUnList();
+                    	break;
+                    case 10:
                 		System.out.println("임시 뒤로가기(프로그램 종료)");
                 		System.exit(0);
                 }
@@ -62,21 +68,74 @@ public class CustomerDetailUI {
 	*/
 	protected void CustomerDetailListAll() {
 		System.out.println("고객 전체 내역 조회");
-		List<CustomerDetailDTO> list = dao.CustomerDetailList();
-		System.out.println("||고객ID		 이름		연락처		  이메일			 주소				등록일			주민번호		고객등급		보유마일리지(단위 : 포인트)||");
-		for(CustomerDetailDTO dto : list) {
-			System.out.printf("||%-15s", dto.getId());
-			System.out.printf("%-12s", dto.getName());
-			System.out.printf("%-20s", dto.getTel());
-			System.out.printf("%-20s", dto.getEmail());
-			System.out.printf("%-25s", dto.getAddress());
-			System.out.printf("%-25s", dto.getReg());
-			System.out.printf("%-23s", dto.getRrn());
-			System.out.printf("%-20s", dto.getClass_Level());
-			System.out.printf("%-11s", dto.getRemain_Mil() + " 포인트");
-			System.out.println();
+		try {
+		int page = 1;
+		int rows = 10;
+		
+		int totalData = dao.CustomerDetailListCount();
+		if (totalData == 0) {
+			System.out.println("검색된 데이터가 없습니다.");
+			return;
 		}
-		System.out.println("조회된 건 수 : " + list.size() + "건");
+		
+		int totalPage = (int) (Math.ceil((double) totalData / rows));
+		while (true) {
+			List<CustomerDetailDTO> list = dao.CustomerDetailList(page, rows);
+			
+			if (list.isEmpty() && page > 1) {
+				System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
+				page--;
+				continue;
+			}
+			System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
+			System.out.println("||고객ID		 이름		연락처		  이메일			 주소				등록일			주민번호		 고객등급		보유마일리지(단위 : 포인트)||");
+			for(CustomerDetailDTO dto : list) {
+				System.out.printf("||%-15s", dto.getId());
+				System.out.printf("%-12s", dto.getName());
+				System.out.printf("%-20s", dto.getTel());
+				System.out.printf("%-20s", dto.getEmail());
+				System.out.printf("%-25s", dto.getAddress());
+				System.out.printf("%-25s", dto.getReg());
+				System.out.printf("%-23s", dto.getRrn());
+				System.out.printf("%-20s", dto.getClass_Level());
+				System.out.printf("%-11s", dto.getRemain_Mil() + " 포인트 ||");
+				System.out.println();
+			}
+			System.out.println("----------------------------------------------------------------------------------");
+			System.out.printf("  페이지: %d / %d \n", page, totalPage);
+			System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
+			String ch = br.readLine();
+			
+			if(ch.equalsIgnoreCase("P")) { 
+				if(page > 1) {
+					page--;
+				} else {
+					System.out.println("첫 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("N")) {
+				if(page < totalPage) {
+					page++;
+				} else {
+					System.out.println("마지막 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("M")) {
+				break;
+			} else {
+				try {
+					int p = Integer.parseInt(ch);
+					if(p >= 1 && p <= totalPage) {
+						page = p;
+					} else {
+						System.out.println("페이지 범위를 벗어났습니다.");
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("잘못된 입력입니다.");
+				}
+			}
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -94,7 +153,7 @@ public class CustomerDetailUI {
 			CustomerDetailDTO dto = dao.CustomerDetailFindId(id);
 			
 			if(dto == null) {
-				System.out.println("존재하지 않는 ID입니다.");
+				System.out.println("존재하지 않는 ID입니다");
 				return;
 			}
 			System.out.println("||고객ID		 이름		연락처		  이메일			 주소				등록일			주민번호		고객등급		보유마일리지(단위 : 포인트)||");
@@ -129,33 +188,84 @@ public class CustomerDetailUI {
 		int firstNumber, secondNumber;
 		
 		try {
+		int page = 1;
+		int rows = 10;
+		
 		System.out.println("원하시는 ? 원 이상");
 		firstNumber = Integer.parseInt(br.readLine());
 		System.out.println("원하시는 ? 원 이하");
 		secondNumber = Integer.parseInt(br.readLine());
-			
-		List<CustomerDetailDTO> list = dao.CustomerDetailOrderBtween(firstNumber, secondNumber);
 		
-		if(list.size() == 0) {
-			System.out.println("해당 범위 내에 고객은 존재하지 않습니다.");
+		int totalData = dao.CustomerDetailOrderBtweenCount(firstNumber, secondNumber);
+		
+		if(firstNumber > secondNumber) {
+			System.out.println("첫 입력된 ? 구매금액 이상 값은 두 번째 ? 구매금액 이하 값보다 작을 수 없습니다.");
 			return;
 		}
 		
-		for(CustomerDetailDTO dto : list) {
-			System.out.printf("||%-15s", dto.getId());
-			System.out.printf("%-12s", dto.getName());
-			System.out.printf("%-20s", dto.getTel());
-			System.out.printf("%-20s", dto.getEmail());
-			System.out.printf("%-25s", dto.getAddress());
-			System.out.printf("%-25s", dto.getReg());
-			System.out.printf("%-23s", dto.getRrn());
-			System.out.printf("%-20s", dto.getClass_Level());
-			System.out.printf("%-11s", dto.getRemain_Mil() + "포인트");
-			System.out.printf("%-10s", dto.getTotal_cost() + "원");
-			System.out.println();
+		if (totalData == 0) {
+			System.out.println("검색된 데이터가 없습니다.");
+			return;
 		}
-			System.out.println("조회된 건 수 : " + list.size() + "건");
 		
+		int totalPage = (int) (Math.ceil((double) totalData / rows));
+		
+		while(true) {
+			List<CustomerDetailDTO> list = dao.CustomerDetailOrderBtween(firstNumber, secondNumber, page, rows);
+			System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
+			if (list.isEmpty() && page > 1) {
+				System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
+				page--;
+				continue;
+			}
+			for(CustomerDetailDTO dto : list) {
+				System.out.printf("||%-15s", dto.getId());
+				System.out.printf("%-12s", dto.getName());
+				System.out.printf("%-20s", dto.getTel());
+				System.out.printf("%-20s", dto.getEmail());
+				System.out.printf("%-25s", dto.getAddress());
+				System.out.printf("%-25s", dto.getReg());
+				System.out.printf("%-23s", dto.getRrn());
+				System.out.printf("%-20s", dto.getClass_Level());
+				System.out.printf("%-11s", dto.getRemain_Mil() + "포인트");
+				System.out.printf("%-10s", dto.getTotal_cost() + "원");
+				System.out.println();
+			}
+			System.out.println("----------------------------------------------------------------------------------");
+			System.out.printf("  페이지: %d / %d \n", page, totalPage);
+			System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
+			String ch = br.readLine();
+			
+			if(ch.equalsIgnoreCase("P")) { 
+				if(page > 1) {
+					page--;
+				} else {
+					System.out.println("첫 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("N")) {
+				if(page < totalPage) {
+					page++;
+				} else {
+					System.out.println("마지막 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("M")) {
+				break;
+			} else {
+				try {
+					int p = Integer.parseInt(ch);
+					if(p >= 1 && p <= totalPage) {
+						page = p;
+					} else {
+						System.out.println("페이지 범위를 벗어났습니다.");
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("잘못된 입력입니다.");
+				}
+			}
+		}
+		
+		} catch (NumberFormatException e) {
+			System.out.println("고객 총 구매금액은 숫.자로 입력해주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,9 +283,9 @@ public class CustomerDetailUI {
 		
 		try {
 			System.out.println("조회하고자 하는 ID를 입력해주세요");
-		id = br.readLine();
+			id = br.readLine();
 			
-		List<CustomerDetailDTO> list = dao.CustomerOrderListFindId(id);
+			List<CustomerDetailDTO> list = dao.CustomerOrderListFindId(id);
 		
 		if(list.size() == 0) {
 			System.out.println("존재하지 않는 ID입니다.");
@@ -212,31 +322,78 @@ public class CustomerDetailUI {
 		try {
 		System.out.println("원하시는 ? 포인트 입력");
 		moreMileage = Integer.parseInt(br.readLine());
-			
-		List<CustomerDetailDTO> list = dao.CustomerMileageMoreList(moreMileage);
 		
-		if(list.size() == 0) {
-			System.out.println("해당 범위 내에 고객은 존재하지 않습니다.");
+		int page = 1;
+		int rows = 10;
+
+		int totalData = dao.CustomerMileageMoreListCount(moreMileage);
+		if (totalData == 0) {
+			System.out.println("검색된 데이터가 없습니다.");
 			return;
 		}
+
+		int totalPage = (int) (Math.ceil((double) totalData / rows));
 		
-		for(CustomerDetailDTO dto : list) {
-			System.out.printf("||%-15s", dto.getId());
-			System.out.printf("%-12s", dto.getName());
-			System.out.printf("%-20s", dto.getTel());
-			System.out.printf("%-20s", dto.getEmail());
-			System.out.printf("%-25s", dto.getAddress());
-			System.out.printf("%-25s", dto.getReg());
-			System.out.printf("%-23s", dto.getRrn());
-			System.out.printf("%-20s", dto.getClass_Level());
-			System.out.printf("%-11s", dto.getRemain_Mil() + "포인트");
-			System.out.printf("%-20s", dto.getDormancy());
-			System.out.println();
+		while (true) {
+			List<CustomerDetailDTO> list = dao.CustomerMileageMoreList(moreMileage, page, rows);
+			
+			System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
+			System.out.println("||고객ID	||	이름		||	연락처		||	이메일		||		주소		||		등록일		||		주민번호		||		고객등급		||		보유마일리지(단위 : 포인트)");
+			
+			if (list.isEmpty() && page > 1) {
+				System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
+				page--;
+				continue;
+			}
+			
+			for(CustomerDetailDTO dto : list) {
+				System.out.printf("||%-15s", dto.getId());
+				System.out.printf("%-15s", dto.getName());
+				System.out.printf("%-23s", dto.getTel());
+				System.out.printf("%-26s", dto.getEmail());
+				System.out.printf("%-29s", dto.getAddress());
+				System.out.printf("%-25s", dto.getReg());
+				System.out.printf("%-23s", dto.getRrn());
+				System.out.printf("%-20s", dto.getClass_Level());
+				System.out.printf("%-11s", dto.getRemain_Mil() + "포인트");
+				System.out.printf("%-20s", dto.getDormancy());
+				System.out.println();
+			}
+			System.out.println("----------------------------------------------------------------------------------");
+			System.out.printf("  페이지: %d / %d \n", page, totalPage);
+			System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
+			String ch = br.readLine();
+			
+			if(ch.equalsIgnoreCase("P")) { 
+				if(page > 1) {
+					page--;
+				} else {
+					System.out.println("첫 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("N")) {
+				if(page < totalPage) {
+					page++;
+				} else {
+					System.out.println("마지막 페이지입니다.");
+				}
+			} else if (ch.equalsIgnoreCase("M")) {
+				break;
+			} else {
+				try {
+					int p = Integer.parseInt(ch);
+					if(p >= 1 && p <= totalPage) {
+						page = p;
+					} else {
+						System.out.println("페이지 범위를 벗어났습니다.");
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("잘못된 입력입니다.");
+				}
+			}
 		}
-			System.out.println("조회된 건 수 : " + list.size() + "건");
 		
 		} catch (NumberFormatException e) {
-			System.out.println("보유 마일리지 조건 검색은 숫자만 가능합니다.");
+			System.out.println("보유 마일리지 조건 검색은 숫.자만 가능합니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -357,6 +514,41 @@ public class CustomerDetailUI {
 			System.out.printf("%-20s", dto.getClass_Level());
 			System.out.printf("%-11s", dto.getRemain_Mil() + " 포인트");
 			System.out.printf("%-10s", dto.getDormancy());
+			System.out.println();
+		}
+		System.out.println("조회된 건 수 : " + list.size() + "건");
+	}
+	
+	/**
+	올해 월별 고객의 상품 구매 수 총계 조회 리스트
+	@author	김설규
+	@param	dto
+	*/
+	protected void MonthlyThisyearOrderCnt() {
+		System.out.println("올해 월별 고객 상품구매 수 조회");
+		List<CustomerDetailDTO> list = dao.MonthlyThisyearOrderCnt();
+		System.out.println("||월	 상품 구매 수||");
+		for(CustomerDetailDTO dto : list) {
+			System.out.printf("||%-7s", dto.getLvemon());
+			System.out.printf("%-5s", dto.getMonths_order());
+			System.out.println();
+		}
+	}
+	
+	/**
+	가장 최근 접속 일자가 1년 이상 된 고객 중 휴면처리가 되지 않은 고객 리스트
+	@author	김설규
+	@return list
+	*/
+	protected void CustomerDormancyUnList() {
+		System.out.println("휴면 대상 고객 중 휴면처리가 되지 않은 고객 리스트");
+		List<CustomerDetailDTO> list = dao.CustomerDormancyUnList();
+		System.out.println("||고객ID		 이름		등급		고객의 가장 최근 로그인 날짜||");
+		for(CustomerDetailDTO dto : list) {
+			System.out.printf("||%-15s", dto.getId());
+			System.out.printf("%-15s", dto.getName());
+			System.out.printf("%-16s", dto.getDormancy());
+			System.out.printf("%-10s", dto.getMax_log_date());
 			System.out.println();
 		}
 		System.out.println("조회된 건 수 : " + list.size() + "건");

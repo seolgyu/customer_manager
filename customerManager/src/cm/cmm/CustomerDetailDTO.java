@@ -17,6 +17,28 @@ public class CustomerDetailDTO {
     private String order_code;
     private String order_price;
     private String order_date;
+    private String lvemon;
+    private String months_order;
+    private String max_log_date;
+    
+    public String getMax_log_date() {
+		return max_log_date;
+	}
+	public void setMax_log_date(String max_log_date) {
+		this.max_log_date = max_log_date;
+	}
+	public String getLvemon() {
+		return lvemon;
+	}
+	public void setLvemon(String lvemon) {
+		this.lvemon = lvemon;
+	}
+	public String getMonths_order() {
+		return months_order;
+	}
+	public void setMonths_order(String months_order) {
+		this.months_order = months_order;
+	}
     
 	public String getOrder_date() {
 		return order_date;
