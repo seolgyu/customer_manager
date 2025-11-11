@@ -69,7 +69,7 @@ public class MainUI {
 			case 2: manageUI.productBuy(); break;
 			case 3: adminloginUI.update(); break;
 			case 4: login.logout(); System.out.println(); break;
-			case 5: adminloginUI.delete(); break;
+			case 5: customerUI.delete(); break;
 			}
 		} catch (Exception e) {
 		}
