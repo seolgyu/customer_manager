@@ -20,8 +20,15 @@ public class CustomerDetailDTO {
     private String lvemon;
     private String months_order;
     private String max_log_date;
+    private String max_total_Cost;
     
-    public String getMax_log_date() {
+    public String getMax_total_Cost() {
+		return max_total_Cost;
+	}
+	public void setMax_total_Cost(String max_total_Cost) {
+		this.max_total_Cost = max_total_Cost;
+	}
+	public String getMax_log_date() {
 		return max_log_date;
 	}
 	public void setMax_log_date(String max_log_date) {

@@ -52,5 +52,10 @@ public interface CustomerDetailDAO {
 	@author	김설규
 	*/
 	public List<CustomerDetailDTO> CustomerDormancyUnList();
+	/**
+	등급이 상승되지않은 등급 상승 대상 고객 리스트
+	@author	김설규
+	*/
+	public List<CustomerDetailDTO> CustomerClassUnList();
 	
 }
