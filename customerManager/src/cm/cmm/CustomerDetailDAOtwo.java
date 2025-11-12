@@ -32,14 +32,20 @@ public interface CustomerDetailDAOtwo {
 	@return List<CustomerDetailDTO>
 	@author	권혁찬
 	*/
-	List<CustomerDetailDTO> customerFindByGrade(int page, int rows);
+	public List<CustomerDetailDTO> customerFindByGrade(int page, int rows);
+	
 	/**
 	등급별 합계와 총계
 	@author	권혁찬
 	*/
-	void CustomerCountByGrade();
-	int dataCountTotalCus();
-	List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear, String endYear);
-
+	public void CustomerCountByGrade();
+	public int dataCountTotalCus();
 	
+	/**
+	해당 년도에 월별 구매건수와 합계 조회하는 메소드
+	@param String
+	@return List<YearlyMonthlyStatsDTO>
+	@author	권혁찬
+	*/
+	List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear);
 }

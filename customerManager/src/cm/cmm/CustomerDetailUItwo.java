@@ -331,7 +331,7 @@ public class CustomerDetailUItwo {
 				 return;
 			}
 			// 년도 기준 전체 페이지 수 계산
-			int totalPage = (int) (Math.ceil((double) totalYears / rows));
+			int totalPage = totalYears;
 			
 			
 			// 3. 페이징 루프 시작
@@ -341,22 +341,13 @@ public class CustomerDetailUItwo {
 				// (페이지 1, 3년씩) => 2020 + ((1-1) * 3) = 2020년
 				int pageStartYear = overallStartYear + ((page - 1) * rows);
 				// (페이지 1, 3년씩) => 2020 + 3 - 1 = 2022년
-				int pageEndYear = pageStartYear + rows - 1;
-				
-				// 마지막 페이지 보정
-				// (총 10년(2020~2029), 3년씩, 4페이지) => pageEndYear = 2029 + 3 - 1 = 2031
-				// 2031 > 2029 이므로, pageEndYear = 2029
-				if (pageEndYear > overallEndYear) {
-					pageEndYear = overallEndYear;
-				}
 
-				// 5. DAO 호출 (계산된 '페이지'의 년도 범위를 넘김)
+				
+
 				List<YearlyMonthlyStatsDTO> statsList = dao2.getMonthlyBuyStats(
-						String.valueOf(pageStartYear), 
-						String.valueOf(pageEndYear)
+						String.valueOf(pageStartYear)
 				);
 
-				// 6. List -> Map 변환 (기존 로직 동일)
 				Map<String, YearlyMonthlyStatsDTO> statsMap = new HashMap<>();
 				for(YearlyMonthlyStatsDTO dto : statsList) {
 					String key = dto.getYear() + "-" + dto.getMonth();
@@ -364,14 +355,11 @@ public class CustomerDetailUItwo {
 				}
 
 				System.out.println("\n--- " + overallStartYearStr + "년 ~ " + overallEndYearStr + "년 월별 구매 통계 ---");
-				System.out.printf("--- [현재 페이지: %d / %d] (조회 기간: %d년 ~ %d년) ---\n", 
-									page, totalPage, pageStartYear, pageEndYear);
+				System.out.printf("--- [현재 페이지: %d / %d] ---\n", 
+									page, totalPage);
 				
-
-				
-				// 7. 년/월 출력 (기존 로직과 거의 동일, y의 범위만 수정)
 				// (바깥쪽 년도 루프)
-				for(int y = pageStartYear; y <= pageEndYear; y++) {
+				for(int y = pageStartYear; y <= pageStartYear; y++) {
 					
 					System.out.println("\n=================================");
 					System.out.println("     " + y + "년도 통계");
@@ -404,10 +392,8 @@ public class CustomerDetailUItwo {
 					
 					System.out.println("---------------------------------");
 					System.out.printf(" [소계] | %5d명 | %,12d원\n", yearTotalCount, yearTotalSum);
-					
 				} // (년도 루프 종료)
-
-				// 8. 페이징 메뉴 출력 (customerFindByName에서 복사)
+				
 				System.out.printf("  페이지: %d / %d \n", page, totalPage);
 				System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
 				String ch = br.readLine();
@@ -439,9 +425,7 @@ public class CustomerDetailUItwo {
 					}
 				}
 				
-			} // (페이징 while 루프 종료)
-			
-			
+			} // while 루프 
 			
 		} catch (Exception e) {
 			// TODO: handle exception

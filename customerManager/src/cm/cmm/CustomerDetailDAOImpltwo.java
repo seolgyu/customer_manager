@@ -327,7 +327,7 @@ public class CustomerDetailDAOImpltwo implements CustomerDetailDAOtwo{
 	}
 	
 	@Override
-	public List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear, String endYear){
+	public List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear){
 		List<YearlyMonthlyStatsDTO> list = new ArrayList<YearlyMonthlyStatsDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -337,13 +337,12 @@ public class CustomerDetailDAOImpltwo implements CustomerDetailDAOtwo{
 			sql = "SELECT TO_CHAR(ORDER_DATE, 'YYYY') AS year, TO_CHAR(ORDER_DATE, 'MM') AS month,"
 					+ "        COUNT(*) AS count, NVL(SUM(ORDER_PRICE), 0) AS sum"
 					+ " FROM ORDER_DETAILS"
-					+ " WHERE TO_CHAR(ORDER_DATE, 'YYYY') >= ? AND TO_CHAR(ORDER_DATE, 'YYYY') <= ?"
+					+ " WHERE TO_CHAR(ORDER_DATE, 'YYYY') = ?"
 					+ " GROUP BY TO_CHAR(ORDER_DATE, 'YYYY'), TO_CHAR(ORDER_DATE, 'MM')"
 					+ " ORDER BY year, month";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, startYear);
-			pstmt.setString(2, endYear);
 			
 			rs = pstmt.executeQuery();
 			
