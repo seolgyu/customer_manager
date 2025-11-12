@@ -99,7 +99,6 @@ public class MainUI {
 			case 9: login.logout(); System.out.println(); break;
 			}
 			
-			menuAdmin();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
