@@ -98,6 +98,28 @@ public class CustomerLoginUI {
 			System.out.println();
 			
 		}
+		
+		// 고객 회원 탈퇴
+		public void delete() {
+			System.out.println("\n[회원탈퇴]");
+			char ch;
+
+			try {
+				System.out.print("회원을 탈퇴 하시겠습니까[Y/N] ? ");
+				ch = br.readLine().charAt(0);
+
+				if (ch == 'Y' || ch == 'y') {
+					dao.deleteMember(loginInfo.loginMember().getCus_id());
+					loginInfo.logout();
+				}
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+				System.out.println("회원 탈퇴 실패...");
+			}
+			System.out.println();
+			
+		}
 }
 	
 
