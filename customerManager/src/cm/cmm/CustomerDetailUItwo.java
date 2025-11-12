@@ -2,7 +2,9 @@ package cm.cmm;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomerDetailUItwo {
 	private CustomerDetailDAOtwo dao2 = new CustomerDetailDAOImpltwo();
@@ -23,9 +25,9 @@ public class CustomerDetailUItwo {
 		
 		while (starting) {
             try {
-                System.out.println("|| 1.고객 이름 검색 || 2.구매 금액으로 고객 검색 || 3.등급");
+                System.out.println("|| 1.고객 이름 검색 || 2.구매 금액으로 고객 검색 || 3.등급 4.년도월별");
                 ch = Integer.parseInt(br.readLine());
-                if(ch == 4) {
+                if(ch == 5) {
                 	System.out.println("임시 뒤로가기(프로그램 종료)");
             		System.exit(0);
                 }
@@ -39,6 +41,9 @@ public class CustomerDetailUItwo {
                 	break;
                 case 3:
                 	customerFindByGrade();
+                	break;
+                case 4:
+                	yearlyMonthlyBuyStats();
                 	break;
                 }
             } catch (NumberFormatException e) {
@@ -299,6 +304,147 @@ public class CustomerDetailUItwo {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	protected void yearlyMonthlyBuyStats() {
+		System.out.println("\n[년도별 월별 구매 통계]");
+		String overallStartYearStr;
+		String overallEndYearStr;
+		
+		try {
+			System.out.print("▶ 조회 시작 년도 (예: 2020) : ");
+			overallStartYearStr = br.readLine();
+			System.out.print("▶ 조회 종료 년도 (예: 2030) : ");
+			overallEndYearStr = br.readLine();
+			
+			int overallStartYear = Integer.parseInt(overallStartYearStr);
+			int overallEndYear = Integer.parseInt(overallEndYearStr);
+
+			// 2. 페이징 처리 변수 설정
+			int page = 1;
+			int rows = 1; // 한 페이지에 3년치씩 보여주기 (이 값을 조절)
+			
+			int totalYears = (overallEndYear - overallStartYear) + 1;
+			if (totalYears <= 0) {
+				 System.out.println("조회 기간이 올바르지 않습니다.");
+				 return;
+			}
+			// 년도 기준 전체 페이지 수 계산
+			int totalPage = (int) (Math.ceil((double) totalYears / rows));
+			
+			
+			// 3. 페이징 루프 시작
+			while(true) {
+				
+				// 4. 현재 페이지에 해당하는 년도 계산
+				// (페이지 1, 3년씩) => 2020 + ((1-1) * 3) = 2020년
+				int pageStartYear = overallStartYear + ((page - 1) * rows);
+				// (페이지 1, 3년씩) => 2020 + 3 - 1 = 2022년
+				int pageEndYear = pageStartYear + rows - 1;
+				
+				// 마지막 페이지 보정
+				// (총 10년(2020~2029), 3년씩, 4페이지) => pageEndYear = 2029 + 3 - 1 = 2031
+				// 2031 > 2029 이므로, pageEndYear = 2029
+				if (pageEndYear > overallEndYear) {
+					pageEndYear = overallEndYear;
+				}
+
+				// 5. DAO 호출 (계산된 '페이지'의 년도 범위를 넘김)
+				List<YearlyMonthlyStatsDTO> statsList = dao2.getMonthlyBuyStats(
+						String.valueOf(pageStartYear), 
+						String.valueOf(pageEndYear)
+				);
+
+				// 6. List -> Map 변환 (기존 로직 동일)
+				Map<String, YearlyMonthlyStatsDTO> statsMap = new HashMap<>();
+				for(YearlyMonthlyStatsDTO dto : statsList) {
+					String key = dto.getYear() + "-" + dto.getMonth();
+					statsMap.put(key, dto);
+				}
+
+				System.out.println("\n--- " + overallStartYearStr + "년 ~ " + overallEndYearStr + "년 월별 구매 통계 ---");
+				System.out.printf("--- [현재 페이지: %d / %d] (조회 기간: %d년 ~ %d년) ---\n", 
+									page, totalPage, pageStartYear, pageEndYear);
+				
+
+				
+				// 7. 년/월 출력 (기존 로직과 거의 동일, y의 범위만 수정)
+				// (바깥쪽 년도 루프)
+				for(int y = pageStartYear; y <= pageEndYear; y++) {
+					
+					System.out.println("\n=================================");
+					System.out.println("     " + y + "년도 통계");
+					System.out.println(" (월 | 구매 건수 | 구매 합계)");
+					System.out.println("---------------------------------");
+					
+					long yearTotalCount = 0; 
+					long yearTotalSum = 0;   
+					String yearKey = String.valueOf(y);
+
+					// (안쪽 월 루프)
+					for (int m = 1; m <= 12; m++) {
+						String monthKey = String.format("%02d", m); 
+						String lookupKey = yearKey + "-" + monthKey;
+						YearlyMonthlyStatsDTO stats = statsMap.get(lookupKey);
+
+						int count = 0;
+						long sum = 0; 
+
+						if (stats != null) {
+							count = stats.getCount();
+							sum = stats.getSum();
+						}
+						
+						yearTotalCount += count;
+						yearTotalSum += sum;
+
+						System.out.printf(" %2d월 | %5d명 | %,12d원\n", m, count, sum);
+					} // (월 루프 종료)
+					
+					System.out.println("---------------------------------");
+					System.out.printf(" [소계] | %5d명 | %,12d원\n", yearTotalCount, yearTotalSum);
+					
+				} // (년도 루프 종료)
+
+				// 8. 페이징 메뉴 출력 (customerFindByName에서 복사)
+				System.out.printf("  페이지: %d / %d \n", page, totalPage);
+				System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
+				String ch = br.readLine();
+				
+				if(ch.equalsIgnoreCase("P")) { // 이전
+					if(page > 1) {
+						page--;
+					} else {
+						System.out.println("첫 페이지입니다.");
+					}
+				} else if (ch.equalsIgnoreCase("N")) { // 다음
+					if(page < totalPage) {
+						page++;
+					} else {
+						System.out.println("마지막 페이지입니다.");
+					}
+				} else if (ch.equalsIgnoreCase("M")) {
+					break; // 페이징 루프 종료
+				} else {
+					try {
+						int p = Integer.parseInt(ch);
+						if(p >= 1 && p <= totalPage) {
+							page = p;
+						} else {
+							System.out.println("페이지 범위를 벗어났습니다.");
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("잘못된 입력입니다.");
+					}
+				}
+				
+			} // (페이징 while 루프 종료)
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 }

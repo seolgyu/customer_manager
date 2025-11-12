@@ -39,6 +39,7 @@ public interface CustomerDetailDAOtwo {
 	*/
 	void CustomerCountByGrade();
 	int dataCountTotalCus();
+	List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear, String endYear);
 
 	
 }
