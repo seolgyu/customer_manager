@@ -326,4 +326,43 @@ public class CustomerDetailDAOImpltwo implements CustomerDetailDAOtwo{
 		}
 	}
 	
+	@Override
+	public List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear){
+		List<YearlyMonthlyStatsDTO> list = new ArrayList<YearlyMonthlyStatsDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT TO_CHAR(ORDER_DATE, 'YYYY') AS year, TO_CHAR(ORDER_DATE, 'MM') AS month,"
+					+ "        COUNT(*) AS count, NVL(SUM(ORDER_PRICE), 0) AS sum"
+					+ " FROM ORDER_DETAILS"
+					+ " WHERE TO_CHAR(ORDER_DATE, 'YYYY') = ?"
+					+ " GROUP BY TO_CHAR(ORDER_DATE, 'YYYY'), TO_CHAR(ORDER_DATE, 'MM')"
+					+ " ORDER BY year, month";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, startYear);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				YearlyMonthlyStatsDTO dto = new YearlyMonthlyStatsDTO();
+				dto.setYear(rs.getString("year"));
+				dto.setMonth(rs.getString("month"));
+				dto.setCount(rs.getInt("count"));
+				dto.setSum(rs.getLong("sum"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
+	
 }

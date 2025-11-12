@@ -19,7 +19,7 @@ public class MainUI {
 			
 			if(loginMember == null) {
 				menuGuest();
-			} else if(loginMember.getCus_id().equals("admin")){
+			} else if(loginMember.getCus_id().equals("admin1")){
 				menuAdmin();
 			} else {
 				menuUser();
@@ -99,7 +99,6 @@ public class MainUI {
 			case 9: login.logout(); System.out.println(); break;
 			}
 			
-			menuAdmin();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

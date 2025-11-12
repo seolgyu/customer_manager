@@ -130,7 +130,7 @@ public class LoginDAOImpl implements LoginDAO {
 			}
 		}
 	}
-	//  admin 로그인 참조
+	//  admin 로그인
 	@Override
 	public LoginDTO adminfindById(String cus_id) {
 		LoginDTO dto = null;
@@ -283,7 +283,8 @@ public class LoginDAOImpl implements LoginDAO {
 
 		return list;
 	}
-
+	
+	// 로그인 이력 저장
 	@Override
 	public void insertLoginHistory(String cus_id) throws Exception {
 		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

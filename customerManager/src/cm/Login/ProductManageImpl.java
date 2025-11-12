@@ -82,6 +82,7 @@ public class ProductManageImpl {
         }
     }
     
+    // 상품 구매
     public boolean productBuy(String product_id, int qty, String buyerId, String buyerName) {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
