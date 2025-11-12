@@ -21,7 +21,7 @@ public class CustomerDetailUI {
 		while (starting) {
             try {
                 System.out.printf("|| 1.고객 전체 내역 조회 || 2.고객 ID 조회 || 3.고객 총 구매금액 범위 조건 조회 || 4.고객 주문내역 ID조회 ||"
-                		+ "5. 일정 값 이상 마일리지 고객 조회 ||%n||6.고객 보유마일리지 범위 조건 조회||7.생일 고객 조회||8. 올해 월별 고객 상품 구매 수||9. 휴면대상 고객 조회||10.뒤로가기");
+                		+ "5. 일정 값 이상 마일리지 고객 조회 ||%n||6.고객 보유마일리지 범위 조건 조회||7.생일 고객 조회||8. 올해 월별 고객 상품 구매 수||9.휴면대상 고객 조회||10.등급 상승 대상 고객 조회||11.뒤로가기");
                 ch = Integer.parseInt(br.readLine());
 
                 switch (ch) {
@@ -53,6 +53,9 @@ public class CustomerDetailUI {
                     	CustomerDormancyUnList();
                     	break;
                     case 10:
+                    	CustomerClassUnList();
+                    	break;
+                    case 11:
                 		System.out.println("임시 뒤로가기(프로그램 종료)");
                 		System.exit(0);
                 }
@@ -551,6 +554,26 @@ public class CustomerDetailUI {
 			System.out.printf("%-15s", dto.getName());
 			System.out.printf("%-16s", dto.getDormancy());
 			System.out.printf("%-10s", dto.getMax_log_date());
+			System.out.println();
+		}
+		System.out.println("조회된 건 수 : " + list.size() + "건");
+	}
+	
+	/**
+	등급이 상승되지않은 등급 상승 대상 고객 리스트
+	@author	김설규
+	@return list
+	*/
+	protected void CustomerClassUnList() {
+		System.out.println("등급이 상승되지않은 등급 상승 대상 고객 리스트");
+		List<CustomerDetailDTO> list = dao.CustomerClassUnList();
+		System.out.println("||고객ID		 이름		총 구매금액		등급||");
+		for(CustomerDetailDTO dto : list) {
+			System.out.printf("||%-15s", dto.getId());
+			System.out.printf("%-15s", dto.getName());
+			System.out.printf("%-15s", dto.getMax_total_Cost());
+			System.out.printf("%-15s", dto.getClass_Id() + "등급");
+			
 			System.out.println();
 		}
 		System.out.println("조회된 건 수 : " + list.size() + "건");

@@ -784,4 +784,53 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 		
 		return list;
 	}
+	@Override
+	public List<CustomerDetailDTO> CustomerClassUnList() {
+		List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql =  "SELECT"
+					+ "    cus.CUS_ID,"
+					+ "    cus.Name,"
+					+ "    MAX(ord_Der.total_Cost) AS max_total_Cost,"
+					+ "    cus.CLASS_ID"
+					+ "    FROM order_Details ord_Der, customer cus"
+					+ "    WHERE ord_Der.CUS_ID = cus.CUS_ID"
+					+ "    GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
+					+ "    HAVING"
+					+ "    (MAX(ord_Der.total_Cost) >= 100000 AND MAX(ord_Der.total_Cost) < 200000 AND cus.CLASS_ID != '5') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 200000 AND MAX(ord_Der.total_Cost) < 300000 AND cus.CLASS_ID != '4') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 300000 AND MAX(ord_Der.total_Cost) < 400000 AND cus.CLASS_ID != '3') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 400000 AND MAX(ord_Der.total_Cost) < 500000 AND cus.CLASS_ID != '2') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 500000 AND cus.CLASS_ID != '1')";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				
+				dto.setId(rs.getString("cus_id"));
+				dto.setName(rs.getString("name"));
+				dto.setMax_total_Cost(rs.getString("max_total_Cost"));
+				dto.setClass_Id(rs.getString("class_Id"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
 }
