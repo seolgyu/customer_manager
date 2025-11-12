@@ -61,7 +61,7 @@ INSERT INTO product_Tab (product_id, product_name, product_price, product_class_
 INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1044, '시스템 다이어리', 31000, '사무용품', 109);
 INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1045, '젤펜 세트 (12색)', 14000, '사무용품', 109);
 
--- 10. 반려동물용품 (ID: 110)
+-- 10. 반려동물용품 (ID: 110) 
 INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1046, '고양이 사료 5kg', 42000, '반려동물용품', 110);
 INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1047, '강아지 배변패드 100매', 19000, '반려동물용품', 110);
 INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1048, '고양이 캣타워', 85000, '반려동물용품', 110);
