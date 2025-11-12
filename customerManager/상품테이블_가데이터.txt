@@ -1,0 +1,69 @@
+-- 1. 전자제품 (ID: 101)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1001, '스마트 TV 65인치', 1500000, '전자제품', 101);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1002, '노트북 15인치', 1200000, '전자제품', 101);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1003, '무선 이어폰', 250000, '전자제품', 101);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1004, '공기청정기', 450000, '전자제품', 101);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1005, '게이밍 마우스', 89000, '전자제품', 101);
+
+-- 2. 의류 (ID: 102)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1006, '코튼 반팔 티셔츠', 25000, '의류', 102);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1007, '청바지 (슬림핏)', 78000, '의류', 102);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1008, '경량 패딩 조끼', 110000, '의류', 102);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1009, '스포츠 양말 (5팩)', 15000, '의류', 102);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1010, '후드 집업', 59000, '의류', 102);
+
+-- 3. 식품 (ID: 103)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1011, '유기농 샐러드 믹스', 5500, '식품', 103);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1012, '냉동 닭가슴살 1kg', 12000, '식품', 103);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1013, '프로틴바 (12개입)', 24000, '식품', 103);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1014, '생수 2L (6팩)', 6800, '식품', 103);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1015, '프리미엄 원두 500g', 19000, '식품', 103);
+
+-- 4. 가구/인테리어 (ID: 104)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1016, 'LED 스탠드 조명', 42000, '가구/인테리어', 104);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1017, '1인용 소파', 180000, '가구/인테리어', 104);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1018, '메모리폼 베개', 35000, '가구/인테리어', 104);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1019, '암막 커튼 (2폭)', 67000, '가구/인테리어', 104);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1020, '접이식 테이블', 51000, '가구/인테리어', 104);
+
+-- 5. 도서/음반 (ID: 105)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1021, 'AI 시대의 생존 전략', 18000, '도서/음반', 105);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1022, '베스트 재즈 컴필레이션', 22000, '도서/음반', 105);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1023, 'SQL 마스터하기', 32000, '도서/음반', 105);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1024, '클래식 입문 LP', 45000, '도서/음반', 105);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1025, '월간 디자인 10월호', 15000, '도서/음반', 105);
+
+-- 6. 스포츠/레저 (ID: 106)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1026, '요가 매트', 28000, '스포츠/레저', 106);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1027, '런닝화', 130000, '스포츠/레저', 106);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1028, '등산 스틱 (2개 세트)', 58000, '스포츠/레저', 106);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1029, '축구공 5호', 33000, '스포츠/레저', 106);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1030, '캠핑용 체어', 45000, '스포츠/레저', 106);
+
+-- 7. 화장품/미용 (ID: 107)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1031, '수분 크림', 32000, '화장품/미용', 107);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1032, '선스크린 SPF50+', 21000, '화장품/미용', 107);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1033, '헤어 에센스', 18000, '화장품/미용', 107);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1034, '남성용 올인원 로션', 27000, '화장품/미용', 107);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1035, '립스틱 (로즈 레드)', 25000, '화장품/미용', 107);
+
+-- 8. 주방용품 (ID: 108)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1036, '프라이팬 28cm', 38000, '주방용품', 108);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1037, '에어프라이어 5L', 99000, '주방용품', 108);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1038, '전기 주전자', 34000, '주방용품', 108);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1039, '실리콘 조리도구 세트', 29000, '주방용품', 108);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1040, '머그컵 2개 세트', 17000, '주방용품', 108);
+
+-- 9. 사무용품 (ID: 109)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1041, '무선 키보드/마우스 세트', 48000, '사무용품', 109);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1042, '모니터 받침대', 22000, '사무용품', 109);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1043, 'A4 용지 500매 (5권)', 25000, '사무용품', 109);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1044, '시스템 다이어리', 31000, '사무용품', 109);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1045, '젤펜 세트 (12색)', 14000, '사무용품', 109);
+
+-- 10. 반려동물용품 (ID: 110)
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1046, '고양이 사료 5kg', 42000, '반려동물용품', 110);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1047, '강아지 배변패드 100매', 19000, '반려동물용품', 110);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1048, '고양이 캣타워', 85000, '반려동물용품', 110);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1049, '자동 급식기', 76000, '반려동물용품', 110);
+INSERT INTO product_Tab (product_id, product_name, product_price, product_class_name, product_class_id) VALUES (1050, '강아지 장난감 공', 8000, '반려동물용품', 110);
