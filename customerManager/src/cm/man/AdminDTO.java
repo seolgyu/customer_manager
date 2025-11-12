@@ -15,8 +15,5 @@ public class AdminDTO {
 			}
 			public void setAdmPwd(String admPwd) {
 				this.admPwd = admPwd;
-			}
-			
-
-
+			}			
 }

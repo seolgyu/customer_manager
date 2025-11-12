@@ -10,77 +10,55 @@ import java.util.List;
 import db.util.DBConn;
 import db.util.DBUtil;
 
-public class AdminDAOImpl  implements AdminDAO {
+public class AdminDAOImpl implements AdminDAO {
 	private Connection conn = DBConn.getConnection();
 
 	@Override
 	public int insertAdmin(AdminDTO dto) throws SQLException {
 		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql;
-		
-		try {
-			sql = "INSERT INTO ADMIN_TAB( ADM_ID, ADM_PWD) VALUES (?,?)";
-			
-			pstmt = conn.prepareStatement(sql);
+		String sql = "INSERT INTO ADMIN_TAB( ADM_ID, ADM_PWD) VALUES (?,?)";
+
+		conn.setAutoCommit(false);
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, dto.getAdmId());
 			pstmt.setString(2, dto.getAdmPwd());
-			result = pstmt.executeUpdate();			
-			conn.commit();
-			
-			pstmt.close();
-			pstmt = null;
-			
-			
+
+			result = pstmt.executeUpdate(); // SQL 실행
+			conn.commit(); // ✅ 성공 시 커밋
+
 		} catch (SQLException e) {
-			DBUtil.rollback(conn);
-			throw e;
-		} finally {
-			try {
-				conn.setAutoCommit(true);
-			} catch (Exception e2) {
-				
-			}
-			DBUtil.close(pstmt);
+			DBUtil.rollback(conn); // ✅ 실패 시 롤백
+			throw e; // 상위로 예외 전달
 		}
 
 		return result;
 	}
 
-
 	@Override
 	public List<AdminDTO> listAdmin() {
-		List<AdminDTO> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
+		List<AdminDTO> list = new ArrayList<>();		
+		String sql = "SELECT adm_id, adm_pwd FROM admin_tab ";
 		
-		try {
-			sql = "SELECT adm_id, adm_pwd FROM admin_tab ";
-					
-			pstmt = conn.prepareStatement(sql);
-			
-			rs = pstmt.executeQuery();
+		try (
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			 ResultSet rs = pstmt.executeQuery(); ){
 			
 			while (rs.next()) {
 				AdminDTO dto = new AdminDTO();
 				
 				dto.setAdmId(rs.getString("ADM_ID"));
-				dto.setAdmPwd(rs.getString("ADM_PWD"));
-				
+				dto.setAdmPwd(rs.getString("ADM_PWD"));				
 				list.add(dto);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
 		}
 
 		return list;
 	}
 }
-
 
 //		아이디로 관리자찾기 <- 필요하면 추가 예정
 //	@Override
