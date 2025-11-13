@@ -560,7 +560,7 @@ public class CustomerDetailUI {
 	@author	김설규
 	@return list
 	*/
-	protected void CustomerDormancyUnList() {
+	public void CustomerDormancyUnList() {
 		System.out.println("휴면 대상 고객 중 휴면처리가 되지 않은 고객 리스트");
 		List<CustomerDetailDTO> list = dao.CustomerDormancyUnList();
 		System.out.println("||고객ID		 이름		등급		고객의 가장 최근 로그인 날짜||");
@@ -579,7 +579,7 @@ public class CustomerDetailUI {
 	@author	김설규
 	@return list
 	*/
-	protected void CustomerClassUnList() {
+	public void CustomerClassUnList() {
 		System.out.println("등급이 상승되지않은 등급 상승 대상 고객 리스트");
 		List<CustomerDetailDTO> list = dao.CustomerClassUnList();
 		System.out.println("||고객ID		 이름		총 구매금액		등급||");
