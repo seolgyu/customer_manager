@@ -107,7 +107,7 @@ public class MainUI {
 			e.printStackTrace();
 		}		
 	}
-	private void menuCustomer() {
+	public void menuCustomer() {
 	    int ch;
 
 	    try {
