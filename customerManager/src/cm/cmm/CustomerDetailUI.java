@@ -15,10 +15,11 @@ public class CustomerDetailUI {
 	private CustomerDetailDAOtwo dao2 = new CustomerDetailDAOImpltwo();
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
+	//등급
 	public void CustomerDetailClass() {
 		CustomerClassUnList();
 	}
-	
+	//휴면
 	public void CustomerDetailDormancy() {
 		CustomerDormancyUnList();
 	}
