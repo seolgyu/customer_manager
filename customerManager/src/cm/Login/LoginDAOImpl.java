@@ -305,7 +305,7 @@ public class LoginDAOImpl implements LoginDAO {
 	            System.out.println("로그인 이력 저장 실패...");
 	        }
 
-	        conn.commit();
+	        
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
