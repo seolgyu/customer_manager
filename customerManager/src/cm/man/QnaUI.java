@@ -91,7 +91,7 @@ public class QnaUI {
 				System.out.println("이전 메뉴로 돌아갑니다. \n");
 				return ;
 			}
-			
+			 
 			dto.setInq(br.readLine().toUpperCase());
 			System.out.print("작성자 직원ID를 입력하세요 >");
 			dto.setAdmId(br.readLine().toUpperCase());
