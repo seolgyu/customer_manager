@@ -135,20 +135,35 @@ public class ProductManageImpl {
             pstmt.executeUpdate();
             pstmt.close();
 
-            // 마일리지 적립 (2%)
+         // 마일리지 적립 (2%)
             int mileage = (int) (total * 0.02);
-
             long mileageId = System.nanoTime();
-            
+
+            // 기존 잔여 마일리지 조회
+            int currentMileage = 0;
+            String sqlSelectMileage = "SELECT NVL(MAX(REMAIN_MIL), 0) AS REMAIN_MIL FROM customer_Mileage WHERE CUS_ID = ?";
+            pstmt = conn.prepareStatement(sqlSelectMileage);
+            pstmt.setString(1, buyerId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                currentMileage = rs.getInt("REMAIN_MIL");
+            }
+            rs.close();
+            pstmt.close();
+
+            // 누적된 마일리지 계산
+            int updatedMileage = currentMileage + mileage;
+
+            // 새 마일리지 내역 INSERT
             String sqlMileage = "INSERT INTO customer_Mileage "
                     + "(MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID) "
                     + "VALUES (?, ?, ?, ?, SYSDATE, ?, ?)";
 
-            pstmt = conn.prepareStatement(sqlMileage); // 순수 숫자
+            pstmt = conn.prepareStatement(sqlMileage);
             pstmt.setLong(1, mileageId);
             pstmt.setString(2, "적립");
             pstmt.setInt(3, mileage);
-            pstmt.setInt(4, mileage);  // 최초 적립 시 남은 마일리지 = 적립 마일리지
+            pstmt.setInt(4, updatedMileage); // 누적 잔여 마일리지 반영
             pstmt.setString(5, orderCode);
             pstmt.setString(6, buyerId);
             pstmt.executeUpdate();

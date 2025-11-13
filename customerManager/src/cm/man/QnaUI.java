@@ -80,11 +80,18 @@ public class QnaUI {
 		}
 		System.out.println();
 
-		//
 		try {
 			QnaDTO dto = new QnaDTO();
 			System.out.println("\n=========== [답변하기] =========== (뒤로가기:0) ");
 			System.out.print("답변할 문의번호를 입력하세요 > ");
+			String back = br.readLine().trim();
+			
+			// 뒤로가기 처리
+			if(back.equals("0")) {
+				System.out.println("이전 메뉴로 돌아갑니다. \n");
+				return ;
+			}
+			 
 			dto.setInq(br.readLine().toUpperCase());
 			System.out.print("작성자 직원ID를 입력하세요 >");
 			dto.setAdmId(br.readLine().toUpperCase());

@@ -6,5 +6,4 @@ public class App {
 		MainUI ui = new MainUI();
 		ui.menu();
 	}
-
 }
