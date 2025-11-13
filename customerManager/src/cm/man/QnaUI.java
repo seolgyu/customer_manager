@@ -64,7 +64,7 @@ public class QnaUI {
 				System.out.println("답변할 문의가 없습니다 \n");
 				return;
 			}
-			System.out.println("문의번호\t문의날짜\t\t담당자\t고객ID\t진행상태\t문의\t\t\t답변\t답변날짜");
+			System.out.println("문의번호\t문의날짜\t\t담당자\t\t고객ID\t진행상태\t문의\t\t\t답변\t답변날짜");
 			for (QnaDTO dto : list) {
 				System.out.print(dto.getInq() + "\t");
 				System.out.print(dto.getInqDate() + "\t");
@@ -93,19 +93,19 @@ public class QnaUI {
 			dto.setAnswer(br.readLine());
 
 			// 상태 입력 검증을 반복하도록 수정
-
-//			String s;
-//			
-//			do {
-//				System.out.print("\n상태를 [진행중] 또는 [완료]로 변경해주세요 >");
-//				s = br.readLine();
-//				s = s.trim();
-//				if(s.length() == 0) {
-//					s = "대기";
-//				}
-//			} while(! s.equals("진행중") && ! s.equals("완료") && ! s.equals("대기"));
-//			
-//			dto.setStatus(s);
+			String s;
+			
+			do {
+				System.out.print("\n상태를 [진행중] 또는 [완료]로 변경해주세요 >");
+				s = br.readLine();
+				s = s.trim();
+				if(s.length() == 0) {
+					s = "대기";
+				}
+			} while(! s.equals("진행중") && ! s.equals("완료") && ! s.equals("대기"));
+			
+			dto.setStatus(s);
+			
 			int result = dao.reply(dto);
 
 			if (result == 0) {

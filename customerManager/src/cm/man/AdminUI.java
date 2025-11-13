@@ -16,14 +16,16 @@ public class AdminUI {
 		int ch;
 
 		System.out.println();
-		System.out.println("==== 관리자 등록 및 조회 ==== ");
-		System.out.println();
+
 
 		while (true) {
 			try {
-				System.out.println("1. 관리자 등록");
-				System.out.println("2. 관리자 조회");
-				System.out.println("0. 종료(뒤로가기) ");
+				System.out.println("┌────────────────────────┐");
+				System.out.println("│==== 관리자 등록 및 조회 ====│");
+				System.out.println("│  1. 관리자 등록           │");
+				System.out.println("│  2. 관리자 조회           │");
+				System.out.println("│  0. 종료(뒤로가기)         │ ");
+				System.out.println("└────────────────────────┘");
 
 				System.out.print("선택 > ");
 				ch = Integer.parseInt(br.readLine());
@@ -49,7 +51,6 @@ public class AdminUI {
 
 	protected void insert() {	
 		System.out.println();
-		System.out.println("\n ====== 관리자 및 직원을 등록합니다 ======");
 		
 
 		try  {
@@ -59,12 +60,15 @@ public class AdminUI {
 			String id = null;
 
 			do {
-				System.out.println(" ※ 관리자는 'admin + 숫자 한자리' 조합으로 생성해야합니다");
+				System.out.println("┌──────────────────────────────────────────────┐");
+				System.out.println("│\t====== 관리자 및 직원을 등록합니다 ======      │");
+				System.out.println("│ ⚠️ 관리자는 'admin + 숫자 한자리' 조합으로 생성해야합니다. │");
+				System.out.println("└──────────────────────────────────────────────┘");
 				System.out.print("아이디를 입력하세요  > ");
 				id = br.readLine();
 
 				if (!id.matches("^admin[0-9]$")) {
-					System.out.println("아이디 형식이 잘못되었습니다. (admin + 숫자 한자리)");
+					System.out.println(" ⚠️ 아이디 형식이 잘못되었습니다. (admin + 숫자 한자리)");
 					continue;
 				}
 
@@ -95,9 +99,9 @@ public class AdminUI {
 		} catch (SQLIntegrityConstraintViolationException e) {
 			// 기본키 중복, not null 예외
 			if (e.getErrorCode() == 1) {
-				System.out.println("❌ 이미 존재하는 아이디입니다 ❌");
+				System.out.println("⚠️ 이미 존재하는 아이디입니다 ");
 			} else if (e.getErrorCode() == 1400) { // INSERT-NOT NULL 위반
-				System.out.println("필수 입력사항을 입력하지 않았습니다.");
+				System.out.println("⚠️ 필수 입력사항을 입력하지 않았습니다.");
 			} else {
 				System.out.println(e.toString());
 			}
