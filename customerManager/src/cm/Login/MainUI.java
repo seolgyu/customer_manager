@@ -5,6 +5,10 @@ import java.io.InputStreamReader;
 
 import db.util.DBConn;
 
+import cm.cmm.*;
+import cm.man.*;
+import cm.manage.*;
+
 public class MainUI {
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
@@ -116,13 +120,13 @@ public class MainUI {
 
 	        switch (ch) {
 	            case 1:
-	                System.out.println("고객관리 화면으로 이동");
+	            	new CmUI().menu();
 	                break;
 	            case 2:
-	                System.out.println("고객조회 화면으로 이동");
+	            	new CustomerDetailUI().CustomerDetailMeun();
 	                break;
 	            case 3:
-	                System.out.println("고객상담 화면으로 이동");
+	                new QnaUI().menu();
 	                break;
 	            case 4:
 	                System.out.println("관리자 메뉴로 돌아갑니다.");
