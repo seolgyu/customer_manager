@@ -43,7 +43,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
 	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ "    ) tb WHERE ROWNUM <= ?" // endRow
 					+ " ) WHERE rnum >= ?";
@@ -105,7 +105,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " )"
 					+ " SELECT count(*)"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID";
 
 			pstmt = conn.prepareStatement(sql);
@@ -149,7 +149,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
 	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " WHERE c.CUS_ID = ?";
 			
@@ -217,7 +217,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
 	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY, or_det.TOTAL_COST AS TOTAL_COST"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " JOIN order_details or_det ON c.CUS_ID = or_det.CUS_ID"
 					+ " WHERE or_det.TOTAL_COST BETWEEN ? AND ?"
@@ -287,7 +287,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " )"
 					+ " SELECT count(*)"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " JOIN order_details or_det ON c.CUS_ID = or_det.CUS_ID"
 					+ " WHERE or_det.TOTAL_COST BETWEEN ? AND ?"
@@ -393,7 +393,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN, "
 	                + "        cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " AND REMAIN_MIL >= ?"
 					+ " ORDER BY NAME"
@@ -461,7 +461,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " )"
 					+ " SELECT count(*)"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " AND REMAIN_MIL >= ?"
 					+ " ORDER BY NAME";
@@ -516,7 +516,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN,"
 					+ "		cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " AND REMAIN_MIL BETWEEN ? AND ?"
 					+ " ORDER BY NAME"
@@ -585,7 +585,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " )"
 					+ " SELECT COUNT(*)"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " AND REMAIN_MIL BETWEEN ? AND ?"
 					+ " ORDER BY NAME";
@@ -636,7 +636,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN,"
 					+ "		cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY"
 					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
+					+ " LEFT OUTER JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
 					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
 					+ " AND substr(c.rrn,3, 4) = TO_CHAR(SYSDATE, 'MMDD')"
 					+ " ORDER BY NAME";
@@ -793,19 +793,19 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 		
 		try {
 			sql =  "SELECT"
-					+ "    cus.CUS_ID,"
-					+ "    cus.Name,"
-					+ "    MAX(ord_Der.total_Cost) AS max_total_Cost,"
-					+ "    cus.CLASS_ID"
-					+ "    FROM order_Details ord_Der, customer cus"
-					+ "    WHERE ord_Der.CUS_ID = cus.CUS_ID"
-					+ "    GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
-					+ "    HAVING"
-					+ "    (MAX(ord_Der.total_Cost) >= 100000 AND MAX(ord_Der.total_Cost) < 200000 AND cus.CLASS_ID != '5') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 200000 AND MAX(ord_Der.total_Cost) < 300000 AND cus.CLASS_ID != '4') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 300000 AND MAX(ord_Der.total_Cost) < 400000 AND cus.CLASS_ID != '3') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 400000 AND MAX(ord_Der.total_Cost) < 500000 AND cus.CLASS_ID != '2') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 500000 AND cus.CLASS_ID != '1')";
+					+ "		cus.CUS_ID,"
+					+ "		cus.Name,"
+					+ "		SUM(ord_Der.order_price) AS max_total_Cost,"
+					+ "		cus.CLASS_ID"
+					+ "		FROM order_Details ord_Der, customer cus"
+					+ "		WHERE ord_Der.CUS_ID = cus.CUS_ID"
+					+ "		GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
+					+ "		HAVING"
+					+ "		(SUM(ord_Der.order_price) >= 1000000 AND SUM(ord_Der.order_price) < 2000000 AND cus.CLASS_ID != '5') OR"
+					+ "		(SUM(ord_Der.order_price) >= 2000000 AND SUM(ord_Der.order_price) < 3000000 AND cus.CLASS_ID != '4') OR"
+					+ "		(SUM(ord_Der.order_price) >= 3000000 AND SUM(ord_Der.order_price) < 4000000 AND cus.CLASS_ID != '3') OR"
+					+ "		(SUM(ord_Der.order_price) >= 4000000 AND SUM(ord_Der.order_price) < 5000000 AND cus.CLASS_ID != '2') OR"
+					+ "		(SUM(ord_Der.order_price) >= 5000000 AND cus.CLASS_ID != '1')";
 			
 			pstmt = conn.prepareStatement(sql);
 			

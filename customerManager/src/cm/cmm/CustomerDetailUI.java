@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cm.Login.MainUI;
+
 
 
 public class CustomerDetailUI {
@@ -23,14 +25,12 @@ public class CustomerDetailUI {
 		
 		while (starting) {
             try {
-            	System.out.printf("||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n||%-30s\n",
-            			"1.고객 전체 내역 조회","2.고객 ID 조회", "3. 고객 이름 검색","4.총 구매 금액 고객 검색","5.고객 총 구매금액 범위 조건 조회","6.고객 주문내역 ID조회","7. 일정 값 이상 마일리지 고객 조회","8.고객 보유마일리지 범위 조건 조회","9. 등급 통계",
-            			"10.생일 고객 조회","11.년도, 월별 고객 상품 구매 수","12. 올해 월별 고객 상품 구매 수","13.로그인 기록","14.뒤로가기");
-                		
+                System.out.printf("|| 1.고객 전체 내역 조회 ||%n|| 2.고객 ID 조회 ||%n|| 3. 고객 이름 검색 ||%n|| 4.총 구매 금액 고객 검색 ||%n|| 5.고객 총 구매금액 범위 조건 조회 ||%n|| 6.고객 주문내역 ID조회 ||%n||"
+                		+ " 7. 일정 값 이상 마일리지 고객 조회 ||%n|| 8.고객 보유마일리지 범위 조건 조회 ||%n|| 9. 등급 통계 ||%n|| 10.생일 고객 조회 ||%n|| 11.년도, 월별 고객 상품 구매 수 ||%n|| 12. 올해 월별 고객 상품 구매 수 ||%n|| 13.로그인 기록 ||%n|| 14.뒤로가기");
                 ch = Integer.parseInt(br.readLine());
                  
                 if(ch == 14) {
-                	return;
+                	new MainUI().menuCustomer();
                 }
 
                 switch (ch) {
@@ -562,7 +562,7 @@ public class CustomerDetailUI {
 	@author	김설규
 	@return list
 	*/
-	protected void CustomerDormancyUnList() {
+	public void CustomerDormancyUnList() {
 		System.out.println("휴면 대상 고객 중 휴면처리가 되지 않은 고객 리스트");
 		List<CustomerDetailDTO> list = dao.CustomerDormancyUnList();
 		System.out.println("||고객ID		 이름		등급		고객의 가장 최근 로그인 날짜||");
@@ -581,7 +581,7 @@ public class CustomerDetailUI {
 	@author	김설규
 	@return list
 	*/
-	protected void CustomerClassUnList() {
+	public void CustomerClassUnList() {
 		System.out.println("등급이 상승되지않은 등급 상승 대상 고객 리스트");
 		List<CustomerDetailDTO> list = dao.CustomerClassUnList();
 		System.out.println("||고객ID		 이름		총 구매금액		등급||");
