@@ -4,17 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import db.util.DBConn;
 import db.util.DBUtil;
 
 public class LoginDAOImpl implements LoginDAO {
-	private Connection conn = DBConn.getConnection();
-	private List<String> loginLogs = new ArrayList<>();
-	
+	private Connection conn = DBConn.getConnection();	
 	
 	// 데이터 입력
 	@Override
@@ -287,11 +283,38 @@ public class LoginDAOImpl implements LoginDAO {
 	// 로그인 이력 저장
 	@Override
 	public void insertLoginHistory(String cus_id) throws Exception {
-		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		String log = "고객ID: " + cus_id + ", 로그인시간: " + now;
-		loginLogs.add(log);
-		System.out.println("로그인 이력 저장됨 → " + log);
+		PreparedStatement pstmt = null;
+	    String sql = null;
+
+	    try {
+	 
+	        String loginId = "LOGIN_" + System.currentTimeMillis();
+
+	        sql = "INSERT INTO customer_LoginRecord (Login_ID, Login_Date, CUS_ID) "
+	            + "VALUES (?, SYSDATE, ?)";
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, loginId);
+	        pstmt.setString(2, cus_id);
+
+	        int result = pstmt.executeUpdate();
+
+	        if (result > 0) {
+	            System.out.println("로그인 이력 저장 완료 → ID: " + cus_id);
+	        } else {
+	            System.out.println("로그인 이력 저장 실패...");
+	        }
+
+	        conn.commit();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        conn.rollback();
+	    } finally {
+	        if (pstmt != null) try { pstmt.close(); } catch (Exception ignored) {}
+	    }
+	}
 
 	}
 
-}
+
