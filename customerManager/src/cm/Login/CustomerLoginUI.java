@@ -75,6 +75,8 @@ public class CustomerLoginUI {
 				LoginDTO dto = null;
 				
 				boolean isAdmin = id.equals("admin1");
+				// boolean isAdmin = id.toLowerCase().startsWith("admin"); // admin1 admin2... 추가시 사용
+				
 				if(id.equals("admin1")) {
 					dto = dao.adminfindById(id);
 				}else {
