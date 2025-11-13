@@ -11,7 +11,7 @@ public class MainUI {
     private CustomerLoginUI customerUI = new CustomerLoginUI(login);
     private AdminLoginUI adminloginUI = new AdminLoginUI(login);
     private ProductManageUI manageUI = new ProductManageUI(login);
-
+ 
     // 🎨 콘솔 색상 정의
     private static final String RESET  = "\u001B[0m";
     private static final String BLACK  = "\u001B[30m";
@@ -48,7 +48,7 @@ public class MainUI {
         }
     }
 
-    private void loadingEffect(String message) {
+    public void loadingEffect(String message) {
         try {
             System.out.print(CYAN + message + " ");
             for (int i = 0; i < 5; i++) {
@@ -63,7 +63,7 @@ public class MainUI {
         }
     } 
 
-    private void colorfulBanner() {
+    public void colorfulBanner() {
         String[] banner = {
             "===============================================",
             "   🌟 JABSABA 프로그램 v1.0 🌟",
@@ -83,7 +83,7 @@ public class MainUI {
         }
     }
 
-    private void goodbyeBanner() {
+    public void goodbyeBanner() {
         System.out.println();
         System.out.println(PURPLE + "===============================================" + RESET);
         System.out.println(YELLOW + " 💖 이용해 주셔서 감사합니다 💖" + RESET);
