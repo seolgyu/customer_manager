@@ -61,7 +61,7 @@ public class MainUI {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
+    } 
 
     private void colorfulBanner() {
         String[] banner = {
