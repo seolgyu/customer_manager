@@ -801,11 +801,11 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ "    WHERE ord_Der.CUS_ID = cus.CUS_ID"
 					+ "    GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
 					+ "    HAVING"
-					+ "    (MAX(ord_Der.total_Cost) >= 100000 AND MAX(ord_Der.total_Cost) < 200000 AND cus.CLASS_ID != '5') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 200000 AND MAX(ord_Der.total_Cost) < 300000 AND cus.CLASS_ID != '4') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 300000 AND MAX(ord_Der.total_Cost) < 400000 AND cus.CLASS_ID != '3') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 400000 AND MAX(ord_Der.total_Cost) < 500000 AND cus.CLASS_ID != '2') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 500000 AND cus.CLASS_ID != '1')";
+					+ "    (MAX(ord_Der.total_Cost) >= 1000000 AND MAX(ord_Der.total_Cost) < 2000000 AND cus.CLASS_ID != '5') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 2000000 AND MAX(ord_Der.total_Cost) < 3000000 AND cus.CLASS_ID != '4') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 3000000 AND MAX(ord_Der.total_Cost) < 4000000 AND cus.CLASS_ID != '3') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 4000000 AND MAX(ord_Der.total_Cost) < 5000000 AND cus.CLASS_ID != '2') OR"
+					+ "    (MAX(ord_Der.total_Cost) >= 5000000 AND cus.CLASS_ID != '1')";
 			
 			pstmt = conn.prepareStatement(sql);
 			
