@@ -25,7 +25,7 @@ public class CustomerDetailUItwo {
       
       while (starting) {
             try {
-                System.out.println("|| 1.고객 이름 검색 || 2.구매 금액으로 고객 검색 || 3.등급 || 4.년도월별 || 5. 로그인 기록");
+                System.out.println("|| 1.고객 이름 검색 || 2.구매 금액 고객 검색 || 3.등급 || 4.년도월별 || 5. 로그인 기록");
                 ch = Integer.parseInt(br.readLine());
                 if(ch == 6) {
                    System.out.println("임시 뒤로가기(프로그램 종료)");
