@@ -793,19 +793,19 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 		
 		try {
 			sql =  "SELECT"
-					+ "    cus.CUS_ID,"
-					+ "    cus.Name,"
-					+ "    MAX(ord_Der.total_Cost) AS max_total_Cost,"
-					+ "    cus.CLASS_ID"
-					+ "    FROM order_Details ord_Der, customer cus"
-					+ "    WHERE ord_Der.CUS_ID = cus.CUS_ID"
-					+ "    GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
-					+ "    HAVING"
-					+ "    (MAX(ord_Der.total_Cost) >= 1000000 AND MAX(ord_Der.total_Cost) < 2000000 AND cus.CLASS_ID != '5') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 2000000 AND MAX(ord_Der.total_Cost) < 3000000 AND cus.CLASS_ID != '4') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 3000000 AND MAX(ord_Der.total_Cost) < 4000000 AND cus.CLASS_ID != '3') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 4000000 AND MAX(ord_Der.total_Cost) < 5000000 AND cus.CLASS_ID != '2') OR"
-					+ "    (MAX(ord_Der.total_Cost) >= 5000000 AND cus.CLASS_ID != '1')";
+					+ "		cus.CUS_ID,"
+					+ "		cus.Name,"
+					+ "		SUM(ord_Der.order_price) AS max_total_Cost,"
+					+ "		cus.CLASS_ID"
+					+ "		FROM order_Details ord_Der, customer cus"
+					+ "		WHERE ord_Der.CUS_ID = cus.CUS_ID"
+					+ "		GROUP BY cus.CUS_ID, cus.CLASS_ID, cus.Name"
+					+ "		HAVING"
+					+ "		(SUM(ord_Der.order_price) >= 1000000 AND SUM(ord_Der.order_price) < 2000000 AND cus.CLASS_ID != '5') OR"
+					+ "		(SUM(ord_Der.order_price) >= 2000000 AND SUM(ord_Der.order_price) < 3000000 AND cus.CLASS_ID != '4') OR"
+					+ "		(SUM(ord_Der.order_price) >= 3000000 AND SUM(ord_Der.order_price) < 4000000 AND cus.CLASS_ID != '3') OR"
+					+ "		(SUM(ord_Der.order_price) >= 4000000 AND SUM(ord_Der.order_price) < 5000000 AND cus.CLASS_ID != '2') OR"
+					+ "		(SUM(ord_Der.order_price) >= 5000000 AND cus.CLASS_ID != '1')";
 			
 			pstmt = conn.prepareStatement(sql);
 			
