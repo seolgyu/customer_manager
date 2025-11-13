@@ -47,5 +47,8 @@ public interface CustomerDetailDAOtwo {
 	@return List<YearlyMonthlyStatsDTO>
 	@author	권혁찬
 	*/
-	List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear);
+	public List<YearlyMonthlyStatsDTO> getMonthlyBuyStats(String startYear);
+	
+	public List<CustomerDetailDTO> customerLoginHistory(String id, int page, int rows);
+	public int dateCountLoginHistory(String id);
 }
