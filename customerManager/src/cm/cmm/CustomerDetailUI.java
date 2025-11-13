@@ -15,8 +15,12 @@ public class CustomerDetailUI {
 	private CustomerDetailDAOtwo dao2 = new CustomerDetailDAOImpltwo();
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
-	public CustomerDetailUI() {
-		CustomerDetailMeun();
+	public void CustomerDetailClass() {
+		CustomerClassUnList();
+	}
+	
+	public void CustomerDetailDormancy() {
+		CustomerDormancyUnList();
 	}
 	
 	public void CustomerDetailMeun() {
