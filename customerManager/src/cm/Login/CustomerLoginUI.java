@@ -73,6 +73,8 @@ public class CustomerLoginUI {
 				pwd = br.readLine();								
 				
 				LoginDTO dto = null;
+				
+				boolean isAdmin = id.equals("admin1");
 				if(id.equals("admin1")) {
 					dto = dao.adminfindById(id);
 				}else {
@@ -90,7 +92,11 @@ public class CustomerLoginUI {
 				System.out.println("로그인 성공!");
 				
 				// 로그인 이력 저장
-	            dao.insertLoginHistory(dto.getCus_id());
+				if (!isAdmin) {
+		            dao.insertLoginHistory(dto.getCus_id());
+		        } else {
+		            System.out.println("관리자 로그인 → 이력 저장 생략");
+		        }
 															
 			} catch (Exception e) {
 				e.printStackTrace();
