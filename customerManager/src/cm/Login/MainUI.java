@@ -2,58 +2,118 @@ package cm.Login;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import db.util.DBConn;
 
-import cm.cmm.*;
-import cm.man.*;
-import cm.manage.*;
-
 public class MainUI {
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	
-	private LoginInfo login = new LoginInfo();
-	private CustomerLoginUI customerUI = new CustomerLoginUI(login);
-	private AdminLoginUI adminloginUI = new AdminLoginUI(login);
-	private ProductManageUI manageUI = new ProductManageUI(login);
-	
-	public void menu() {
-		while(true) {
-			LoginDTO loginMember = login.loginMember();
-			
-			if(loginMember == null) {
-				menuGuest();
-			} else if(loginMember.getCus_id().equals("admin1")){
-				menuAdmin();
-			} else {
-				menuUser();
-			}
-		}
-	}
-	
-	private void menuGuest() {
-		int ch;
-		
-		do {
-			ch = 0;
-			try {
-				System.out.print("1.로그인 2.회원가입 3.종료 => ");
-				ch = Integer.parseInt(br.readLine());
-			} catch (Exception e) {
-			}
-		} while(ch < 1 || ch > 3);
-		
-		if(ch == 3) {
-			DBConn.close();
-			System.exit(0);
-		}
-		
-		switch(ch) {
-		case 1: customerUI.login(); break;
-		case 2: customerUI.register(); break;
-		
-		}
-	}
+    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    private LoginInfo login = new LoginInfo();
+    private CustomerLoginUI customerUI = new CustomerLoginUI(login);
+    private AdminLoginUI adminloginUI = new AdminLoginUI(login);
+    private ProductManageUI manageUI = new ProductManageUI(login);
+
+    // 🎨 콘솔 색상 정의
+    private static final String RESET  = "\u001B[0m";
+    private static final String BLACK  = "\u001B[30m";
+    private static final String RED    = "\u001B[31m";
+    private static final String GREEN  = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String BLUE   = "\u001B[34m";
+    private static final String PURPLE = "\u001B[35m";
+    private static final String CYAN   = "\u001B[36m";
+    private static final String WHITE  = "\u001B[37m";
+
+    public static void main(String[] args) {
+        MainUI ui = new MainUI();
+
+        // 🌟 프로그램 시작 시 효과
+        ui.loadingEffect("시스템 초기화 중");
+        ui.colorfulBanner();
+
+        // 실제 메뉴 실행
+        ui.menu();
+    }
+
+    public void menu() {
+        while (true) {
+            LoginDTO loginMember = login.loginMember();
+
+            if (loginMember == null) {
+                menuGuest();
+            } else if (loginMember.getCus_id().equals("admin1")) {
+                menuAdmin();
+            } else {
+                menuUser();
+            }
+        }
+    }
+
+    private void loadingEffect(String message) {
+        try {
+            System.out.print(CYAN + message + " ");
+            for (int i = 0; i < 5; i++) {
+                System.out.print(".");
+                Thread.sleep(400);
+            }
+            System.out.println(" 완료!" + RESET);
+            Thread.sleep(400);
+            System.out.println();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void colorfulBanner() {
+        String[] banner = {
+            "===============================================",
+            "   🌟 JABSABA 프로그램 v1.0 🌟",
+            "==============================================="
+        };
+
+        String[] colors = {YELLOW, GREEN, CYAN, BLUE, PURPLE};
+
+        try {
+            for (int i = 0; i < banner.length; i++) {
+                System.out.println(colors[i % colors.length] + banner[i] + RESET);
+                Thread.sleep(200);
+            }
+            System.out.println();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void goodbyeBanner() {
+        System.out.println();
+        System.out.println(PURPLE + "===============================================" + RESET);
+        System.out.println(YELLOW + " 💖 이용해 주셔서 감사합니다 💖" + RESET);
+        System.out.println(GREEN + " 고객관리 프로그램이 종료됩니다." + RESET);
+        System.out.println(PURPLE + "===============================================" + RESET);
+        System.out.println();
+    }
+
+    private void menuGuest() {
+        int ch;
+
+        do {
+            ch = 0;
+            try {
+                System.out.print("1.로그인 2.회원가입 3.종료 => ");
+                ch = Integer.parseInt(br.readLine());
+            } catch (Exception e) {}
+        } while (ch < 1 || ch > 3);
+
+        if (ch == 3) {
+            goodbyeBanner();
+            DBConn.close();
+            System.exit(0);
+        }
+
+        switch (ch) {
+            case 1: customerUI.login(); break;
+            case 2: customerUI.register(); break;
+        }
+    }
 	
 	private void menuUser() {
 		int ch;
@@ -120,13 +180,13 @@ public class MainUI {
 
 	        switch (ch) {
 	            case 1:
-	            	new CmUI().menu();
+	            	System.out.println("고객관리");
 	                break;
 	            case 2:
-	            	new CustomerDetailUI().CustomerDetailMeun();
+	            	System.out.println("고객조회");
 	                break;
 	            case 3:
-	                new QnaUI().menu();
+	            	System.out.println("고객상담");
 	                break;
 	            case 4:
 	                System.out.println("관리자 메뉴로 돌아갑니다.");
