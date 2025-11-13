@@ -304,8 +304,7 @@ public class LoginDAOImpl implements LoginDAO {
 	        } else {
 	            System.out.println("로그인 이력 저장 실패...");
 	        }
-
-	        
+        
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
