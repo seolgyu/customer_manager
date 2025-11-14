@@ -9,7 +9,6 @@ import java.util.List;
 import cm.cmm.CustomerDetailDTO;
 import db.util.DBConn;
 import cm.cmm.*;
-import cm.Login.*;
 
 public class CmUI {
 	private CmDAO dao = new CmDAOImpl();
@@ -36,8 +35,9 @@ public class CmUI {
 					deleteCustomer();
 					break;
 				case 3: // 관리자 로그인 화면으로 이동 
-					new MainUI().menuCustomer();
-					break;	
+					// new MainUI().menuCustomer();
+					// break;
+					return;	
 				}
 				
 				
@@ -59,7 +59,8 @@ public class CmUI {
 				ch = Integer.parseInt(br.readLine());
 				
 				if(ch == 8) {// 고객관리 화면으로 이동 
-					menu();
+					// menu();
+					return;
 				}
 				
 				switch (ch) {
