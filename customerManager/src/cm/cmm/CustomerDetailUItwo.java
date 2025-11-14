@@ -11,14 +11,6 @@ public class CustomerDetailUItwo {
    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
    
    
-   public static void main(String[] args) {
-      new CustomerDetailUItwo();
-   }
-   
-   public CustomerDetailUItwo() {
-      CustomerDetailMenu();
-   }
-   
    public void CustomerDetailMenu() {
       boolean starting = true;
       int ch;

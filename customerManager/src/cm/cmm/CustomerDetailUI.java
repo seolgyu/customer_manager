@@ -35,7 +35,8 @@ public class CustomerDetailUI {
                 ch = Integer.parseInt(br.readLine());
                  
                 if(ch == 14) {
-                	new MainUI().menuCustomer();
+                	// new MainUI().menuCustomer();
+                	return;
                 }
 
                 switch (ch) {
@@ -67,13 +68,13 @@ public class CustomerDetailUI {
                     	customerFindByGrade();
                     	break;
                     case 10:
-                    	MonthlyThisyearOrderCnt();
+                    	CustomerDetailBirth();
                     	break;
                     case 11:
                     	yearlyMonthlyBuyStats();
                     	break;
                     case 12:
-                    	CustomerClassUnList();
+                    	MonthlyThisyearOrderCnt();
                     	break;
                     case 13:
                     	customerLoginHistory();

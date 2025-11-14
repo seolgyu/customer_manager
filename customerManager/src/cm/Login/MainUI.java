@@ -172,34 +172,37 @@ public class MainUI {
 	}
 	public void menuCustomer() {
 	    int ch;
+	    
+	    // 각 기능들이 끝나고 메뉴를 다시 불러오기 위해 while문 추가
+	    while(true) {
+	    	try {
+		        System.out.println("\n[고객관리 메뉴]");
+		        
+		        do {
+		            System.out.print("1.고객관리  2.고객조회  3.고객상담  4.뒤로가기 => ");
+		            ch = Integer.parseInt(br.readLine());
+		        } while (ch < 1 || ch > 4);
 
-	    try {
-	        System.out.println("\n[고객관리 메뉴]");
-	        
-	        do {
-	            System.out.print("1.고객관리  2.고객조회  3.고객상담  4.뒤로가기 => ");
-	            ch = Integer.parseInt(br.readLine());
-	        } while (ch < 1 || ch > 4);
-
-	        switch (ch) {
-	            case 1:
-	            	new CmUI().menu();
-	                break;
-	            case 2:
-	            	new CustomerDetailUI().CustomerDetailMeun();
-	                break;
-	            case 3:
-	            	new QnaUI().menu();
-	                break;
-	            case 4:
-	                System.out.println("관리자 메뉴로 돌아갑니다.");
-	                break; 
-	        }
-	        
-	        menuAdmin();
- 
-	    } catch (Exception e) {
-	        e.printStackTrace();
+		        switch (ch) {
+		            case 1:
+		            	new CmUI().menu();
+		                break;
+		            case 2:
+		            	new CustomerDetailUI().CustomerDetailMeun();
+		                break;
+		            case 3:
+		            	new QnaUI().menu();
+		                break;
+		            case 4:
+		                System.out.println("관리자 메뉴로 돌아갑니다.");
+		                return; 
+		        }
+		        
+		        // menuCustomer(); // menuCustomer로 이동시 로직 꼬임 발생
+	 
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 	    }
 	}
 	
