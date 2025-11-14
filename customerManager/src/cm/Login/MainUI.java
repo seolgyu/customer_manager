@@ -193,11 +193,11 @@ public class MainUI {
 	                break;
 	            case 4:
 	                System.out.println("관리자 메뉴로 돌아갑니다.");
-	                return; 
+	                break; 
 	        }
 	        
-	        menuCustomer();
-
+	        menuAdmin();
+ 
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
