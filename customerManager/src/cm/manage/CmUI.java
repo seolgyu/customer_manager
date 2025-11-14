@@ -3,13 +3,13 @@ package cm.manage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.List;
 
 import cm.cmm.CustomerDetailDTO;
 import db.util.DBConn;
 import cm.cmm.*;
+import cm.Login.*;
 
 public class CmUI {
 	private CmDAO dao = new CmDAOImpl();
@@ -36,8 +36,8 @@ public class CmUI {
 					deleteCustomer();
 					break;
 				case 3: // 관리자 로그인 화면으로 이동 
+					new MainUI().menuCustomer();
 					break;	
-					// menuCustomer();
 				}
 				
 				
@@ -55,7 +55,7 @@ public class CmUI {
 		
 		while(true) {
 			try {
-				System.out.print("1.리스트조회 2.고객등급수정 3.휴먼처리 4.마일리지추가 5.마일리지수정 6.고객정보수정 7.마일리지리스트 8.뒤로가기 ");
+				System.out.print("1.등급 상승 해당 고객조회 2.고객등급수정 3.휴면 해당 고객조회 4.휴먼처리 5.고객정보수정 6.마일리지추가 7.마일리지리스트 8.뒤로가기 ");
 				ch = Integer.parseInt(br.readLine());
 				
 				if(ch == 8) {// 고객관리 화면으로 이동 
@@ -64,27 +64,26 @@ public class CmUI {
 				
 				switch (ch) {
 				case 1:
-					list();
+					new CustomerDetailUI().CustomerDetailClass();
 					break;
 				case 2:
 					updateGrade();
 					break;
 				case 3:
-					updateDormancy();
+					new CustomerDetailUI().CustomerDetailDormancy();
 					break;
 				case 4:
-					insertMileage();
+					updateDormancy();
 					break;	
 				case 5:
-					updateMileage();
+					updateInformation();
 					break;
 				case 6:
-					updateInformation();
+					insertMileage();
 					break;
 				case 7:
 					mileagelist();
 					break;
-					
 				}
 		
 			} catch (Exception e) {
@@ -93,32 +92,6 @@ public class CmUI {
 		
 	}
 	
-	
-	
-	protected void list() {
-		System.out.println("\n[리스트 조회]");
-		
-		List<CmDTO> list = dao.listCustomer();
-	
-		System.out.println("전체 인원수 : " + list.size());
-		
-		for(CmDTO dto : list) {
-			System.out.print(dto.getCus_id() + "\t");
-			System.out.print(dto.getName() + "\t");
-			System.out.print(dto.getTel() + "\t");
-			System.out.print(dto.getEmail() + "\t");
-			System.out.print(dto.getAddress() + "\t");
-			System.out.print(dto.getReg() + "\t");
-			System.out.print(dto.getRrn() + "\t");
-			System.out.print(dto.getClass_level() + "\t");
-			System.out.print(dto.getRemain_mil() + "\t");
-			System.out.print(dto.getDormancy() + "\t");
-			System.out.println(dto.getTotal_cost());
-			
-		}
-		System.out.println();
-		
-	}
 	
 	
 	
@@ -253,59 +226,10 @@ public class CmUI {
 	
 	
 	
-	
-	protected void updateMileage() {
-		System.out.println("\n[마일리지 수정]");
-		
-		try {
-			CmDTO dto = new CmDTO();
-			
-			System.out.println("수정할 아이디를 입력해주세요 ");
-			dto.setCus_id(br.readLine());
-			
-			
-			System.out.print("변동구분 ? ");
-			dto.setMileage_yn(br.readLine());
-			
-			System.out.print("변동마일리지 ? ");
-			dto.setChange_mil(Integer.parseInt(br.readLine()));
-			
-			System.out.print("남은마일리지 ? ");
-			dto.setRemain_mil(Integer.parseInt(br.readLine()));
-			
-			System.out.print("날짜 ? ");
-			dto.setMileage_date(br.readLine());
-			
-			
-			int result = dao.updateMileage(dto);
-			
-			if(result == 0) {
-				System.out.println("등록된 아이디가 없습니다.");
-			} else {
-				System.out.println("마일리지 수정이 완료되었습니다.");
-			}
-		
-		} catch (SQLDataException e) {
-			if(e.getErrorCode() == 1840 || e.getErrorCode() == 1861) {
-				System.out.println("에러-날짜형식 입력이 잘못되었습니다");
-			} else {
-				System.out.println(e.toString());
-			}
-		} catch (NumberFormatException e) {
-			System.out.println("숫자를 입력해주세요");
-		} catch (SQLException e) {
-			if(e.getErrorCode() == 1407) {
-				System.out.println("에러-필수 입력사항이 입력되지 않았습니다.");
-			} else {
-				System.out.println(e.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	protected void updateInformation() {
 		System.out.println("\n[고객정보 수정]");
+		String class_id;
+		String dormancy;
 		
 		try {
 			CmDTO dto = new CmDTO();
@@ -321,6 +245,28 @@ public class CmUI {
 
 			System.out.print("수정할 이메일을 입력해주세요");
 			dto.setEmail(br.readLine());
+			
+			
+			
+			System.out.println("수정할 고객등급을 입력해주세요");
+			do {
+				System.out.println("0에서 5사이의 숫자를 입력해주세요");
+				class_id = br.readLine();
+				
+			} while(Integer.parseInt(class_id) < 0 || Integer.parseInt(class_id) > 5);
+			dto.setClass_id(class_id);
+
+			
+			
+			System.out.print("수정할 휴면 등급을 입력해주세요");
+			do {
+				System.out.println("[Y] 나 [N] 중에 입력해주세요");
+				dormancy = br.readLine();
+				
+			} while(!dormancy.equals("Y") && !dormancy.equals("N"));
+			dto.setDormancy(dormancy);
+					
+			
 			
 			int result = dao.updateInformation(dto);
 			

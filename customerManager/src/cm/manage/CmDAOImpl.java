@@ -17,72 +17,6 @@ public class CmDAOImpl implements CmDAO{
 	private Connection conn = DBConn.getConnection();
 	
 	
-	@Override // 리스트 
-	public List<CmDTO> listCustomer() {
-		List<CmDTO> list = new ArrayList<CmDTO>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		
-		try {
-			sql = "with CUS_MILE AS( "
-					+ " SELECT CUS_ID, REMAIN_MIL, MILEAGE_DATE"
-					+ " FROM ("
-					+ "	SELECT MILEAGE_ID, MILEAGE_YN, CHANGE_MIL, REMAIN_MIL, MILEAGE_DATE, ORDER_CODE, CUS_ID,"
-					+ "	ROW_NUMBER() OVER (PARTITION BY CUS_ID ORDER BY MILEAGE_DATE DESC, MILEAGE_ID DESC) as rn"
-					+ "	FROM customer_Mileage"
-					+ " )"
-					+ " WHERE rn = 1 "
-					+ " )"
-					+ " SELECT c.CUS_ID AS CUS_ID, NAME, TEL, EMAIL, ADDRESS, REG, RPAD(SUBSTR(RRN, 1, 8), lENGTH(RRN), '*') RRN,"
-					+ "	cC.CLASS_LEVEL AS CLASS_LEVEL, NVL(REMAIN_MIL, 0) REMAIN_MIL, DORMANCY, or_det.TOTAL_COST AS TOTAL_COST"
-					+ " FROM customer c"
-					+ " JOIN CUS_MILE cM ON c.CUS_ID = cM.CUS_ID"
-					+ " JOIN customer_Class cC ON c.CLASS_ID = cC.CLASS_ID"
-					+ " JOIN order_details or_det ON c.CUS_ID = or_det.CUS_ID";
-					
-			
-			pstmt = conn.prepareCall(sql);
-
-			
-			rs = pstmt.executeQuery();
-
-			/*
-			total_cost, customer.class_id, class_level, customer.cus_id, name, pwd, 
-			tel, email, address, reg, rrn, dormancy, login_date, mileage_id, 
-			milaege_YN, CHANGE_mil, remain_mil, Mileage_date
-			 */
-			
-			
-			while(rs.next()) {
-				CmDTO dto = new CmDTO();
-				dto.setCus_id(rs.getString("cus_id"));
-				dto.setName(rs.getString("name"));
-				dto.setTel(rs.getString("tel"));
-				dto.setEmail(rs.getString("email"));
-				dto.setAddress(rs.getString("address"));
-				dto.setReg(rs.getString("reg"));
-				dto.setRrn(rs.getString("rrn"));
-				dto.setClass_level(rs.getNString("class_level"));
-				dto.setRemain_mil(rs.getInt("remain_mil"));
-				dto.setDormancy(rs.getString("dormancy"));
-				dto.setTotal_cost(rs.getInt("total_cost"));
-		
-				list.add(dto);
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-		
-	
-		return list;
-	}
-
 	
 	
 	
@@ -217,38 +151,6 @@ public class CmDAOImpl implements CmDAO{
 	
 	
 	
-	@Override //회원 아이디를 기준으로 검색 하여 해당 이름의 회원 마일리지 관리자 임의로 수정
-	public int updateMileage(CmDTO dto) throws SQLException {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql;
-		
-// mileage_id, mileage_yn, CHANGE_MIL, remain_mil, Mileage_date, order_code, 
-		
-		try {
-			sql = "UPDATE customer_Mileage SET mileage_yn = ?, CHANGE_MIL = ?, remain_mil = ?, Mileage_date = ?"
-					+ " WHERE cus_id = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-	
-			pstmt.setString(1, dto.getMileage_yn());
-			pstmt.setInt(2, dto.getChange_mil());
-			pstmt.setInt(3, dto.getRemain_mil());
-			pstmt.setString(4, dto.getMileage_date());
-			pstmt.setString(5, dto.getCus_id());
-
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			DBUtil.close(pstmt);
-		}
-		return result;
-	}
-	
 	
 	
 	
@@ -264,7 +166,7 @@ public class CmDAOImpl implements CmDAO{
 		
 		try {
 			
-			sql = "UPDATE customer SET tel = ?, address = ?, email = ? "
+			sql = "UPDATE customer SET tel = ?, address = ?, email = ?, class_id = ?, dormancy = ? "
 				+ " WHERE cus_id = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -272,7 +174,9 @@ public class CmDAOImpl implements CmDAO{
 			pstmt.setString(1, dto.getTel());
 			pstmt.setString(2, dto.getAddress());
 			pstmt.setString(3, dto.getEmail());
-			pstmt.setString(4, dto.getCus_id());
+			pstmt.setString(4, dto.getClass_id());
+			pstmt.setString(5, dto.getDormancy());
+			pstmt.setString(6, dto.getCus_id());
 			
 			result = pstmt.executeUpdate();
 			
