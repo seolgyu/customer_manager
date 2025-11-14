@@ -33,7 +33,7 @@ public class CmDAOImpl implements CmDAO{
 		
 		try {
 			
-		sql = 	"SELECT c.cus_id, NVL(sum(order_price),0) total_cost"
+		sql = 	"SELECT c.cus_id, NVL(sum(total_cost),0) total_cost"
 				+ " FROM customer c"
 				+ " LEFT JOIN order_Details cD ON c.cus_id = cD.cus_id"
 				+ " GROUP BY c.cus_id"
