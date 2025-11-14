@@ -51,4 +51,8 @@ public interface CustomerDetailDAOtwo {
 	
 	public List<CustomerDetailDTO> customerLoginHistory(String id, int page, int rows);
 	public int dateCountLoginHistory(String id);
+	
+	
+	public int dataCountProductPurchases();
+	public List<CustomerDetailDTO> purchaseCountsByProduct(int page, int rows);
 }

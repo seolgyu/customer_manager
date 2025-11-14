@@ -431,5 +431,82 @@ public class CustomerDetailDAOImpltwo implements CustomerDetailDAOtwo{
         
         return result;
     }
+    
+    @Override
+    public int dataCountProductPurchases() {
+    	int result = 0;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	String sql;
+    	
+    	try {
+			sql = "SELECT count(*)"
+					+ " FROM (SELECT PRODUCT_ID"
+					+ " 		FROM sale_Details"
+					+ " 		GROUP BY product_id)";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+            DBUtil.close(pstmt);
+		}
+    	return result;
+    }
+    
+    @Override
+    public List<CustomerDetailDTO> purchaseCountsByProduct(int page, int rows){
+    	List<CustomerDetailDTO> list = new ArrayList<CustomerDetailDTO>();
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	String sql;
+    	
+    	int startRow = (page - 1) * rows + 1;
+        int endRow = page * rows;
+    	
+    	try {
+			sql = "SELECT PRODUCT_ID, PRODUCT_NAME, TOTAL"
+					+ " FROM (SELECT ROWNUM rn, product_id, product_name, total"
+					+ "        FROM ("
+					+ "            SELECT pt.PRODUCT_ID, pt.product_name, sum(qty) total"
+					+ "            FROM product_tab pt"
+					+ "            JOIN sale_Details sd ON pt.product_id = sd.product_id"
+					+ "            GROUP BY pt.product_id, pt.product_name"
+					+ "            ORDER BY product_id)"
+					+ "        WHERE ROWNUM <= ?)"
+					+ " WHERE rn >= ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, endRow);
+			pstmt.setInt(2, startRow);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CustomerDetailDTO dto = new CustomerDetailDTO();
+				dto.setId(rs.getString("PRODUCT_ID"));
+				dto.setName(rs.getString("PRODUCT_NAME"));
+				dto.setTotal_cost(rs.getString("TOTAL"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+            DBUtil.close(pstmt);
+		}
+    	
+    	return list;
+    }
 
 }

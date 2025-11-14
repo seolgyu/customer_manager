@@ -30,10 +30,10 @@ public class CustomerDetailUI {
 		while (starting) {
             try {
                 System.out.printf("|| 1.고객 전체 내역 조회 ||%n|| 2.고객 ID 조회 ||%n|| 3. 고객 이름 검색 ||%n|| 4.총 구매 금액 고객 검색 ||%n|| 5.고객 총 구매금액 범위 조건 조회 ||%n|| 6.고객 주문내역 ID조회 ||%n||"
-                		+ " 7. 일정 값 이상 마일리지 고객 조회 ||%n|| 8.고객 보유마일리지 범위 조건 조회 ||%n|| 9. 등급 통계 ||%n|| 10.생일 고객 조회 ||%n|| 11.년도, 월별 고객 상품 구매 수 ||%n|| 12. 올해 월별 고객 상품 구매 수 ||%n|| 13.로그인 기록 ||%n|| 14.뒤로가기");
+                		+ " 7. 일정 값 이상 마일리지 고객 조회 ||%n|| 8.고객 보유마일리지 범위 조건 조회 ||%n|| 9. 등급 통계 ||%n|| 10.생일 고객 조회 ||%n|| 11.년도, 월별 고객 상품 구매 수 ||%n|| 12. 올해 월별 고객 상품 구매 수 ||%n|| 13.상품별 구매 수 ||%n|| 14.로그인 기록 ||%n|| 15.뒤로가기");
                 ch = Integer.parseInt(br.readLine());
                  
-                if(ch == 14) {
+                if(ch == 15) {
                 	// new MainUI().menuCustomer();
                 	return;
                 }
@@ -76,10 +76,11 @@ public class CustomerDetailUI {
                     	MonthlyThisyearOrderCnt();
                     	break;
                     case 13:
+                    	purchaseCountsByProduct();
+                    	break;
+                    case 14:
                     	customerLoginHistory();
                     	break;
-                    
-                		
                 }
             } catch (NumberFormatException e) {
             		e.printStackTrace();
@@ -988,4 +989,50 @@ public class CustomerDetailUI {
             e.printStackTrace();
         }
     }
+    
+    protected void purchaseCountsByProduct() {
+    	System.out.println("[상품별 구매 수 조회]");
+    	
+        try {
+
+            int page = 1;
+            int rows = 10;
+
+            int totalData = dao2.dataCountProductPurchases();
+            if (totalData == 0) {
+               System.out.println("검색된 데이터가 없습니다.");
+               return;
+            }
+
+            int totalPage = (int) (Math.ceil((double) totalData / rows));
+
+            while (true) {
+               List<CustomerDetailDTO> list = dao2.purchaseCountsByProduct(page, rows);
+
+               System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
+               System.out.printf("|| 상품ID ||  상품 이름  ||   구매 수  \n");
+               
+               if (list.isEmpty() && page > 1) {
+                  System.out.println("표시할 데이터가 없습니다. 이전 페이지로 이동합니다.");
+                  page--;
+                  continue;
+               }
+               
+               for (CustomerDetailDTO dto : list) {
+                  System.out.printf("%-10s", dto.getId());
+                  System.out.printf("%-15s",dto.getName());
+                  System.out.printf("%-5s\n",dto.getTotal_cost());
+               }
+               
+               int[] result = pagingButton(totalPage, page);
+               page = result[0];
+               if (result[1] == 1) {
+                     break;
+               }
+            }
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
