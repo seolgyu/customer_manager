@@ -68,9 +68,9 @@ public class CustomerLoginUI {
 			
 			try {
 	            System.out.print("아이디 ? ");
-	            id = br.readLine().toUpperCase().trim();
+	            id = br.readLine();
 	            System.out.print("패스워드 ? ");
-	            pwd = br.readLine().toLowerCase().trim(); 				
+	            pwd = br.readLine(); 				
 				
 				LoginDTO dto = null;
 				
