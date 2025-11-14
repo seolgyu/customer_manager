@@ -67,10 +67,10 @@ public class CustomerLoginUI {
 			String id, pwd;
 			
 			try {
-				System.out.print("아이디 ? ");
-				id = br.readLine();
-				System.out.print("패스워드 ? ");
-				pwd = br.readLine();								
+	            System.out.print("아이디 ? ");
+	            id = br.readLine().toUpperCase().trim();
+	            System.out.print("패스워드 ? ");
+	            pwd = br.readLine().toLowerCase().trim(); 				
 				
 				LoginDTO dto = null;
 				
