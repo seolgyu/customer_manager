@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface LoginDAO {
-	public void insertMember(LoginDTO dto) throws SQLException;
+	boolean insertMember(LoginDTO dto) throws SQLException;
 	public void updateMember(LoginDTO dto) throws SQLException;
 	public void deleteMember(String cus_id) throws SQLException;
 	public void insertLoginHistory(String cus_id) throws Exception;
