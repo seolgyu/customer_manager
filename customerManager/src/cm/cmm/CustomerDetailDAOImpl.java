@@ -712,6 +712,8 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ "    '올해 총 구매 수 : ' as a,"
 					+ "    COUNT(*)"
 					+ " FROM order_Details"
+					+ " WHERE ORDER_DATE >= TRUNC(SYSDATE, 'YYYY')"
+					+ "	AND ORDER_DATE < ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12)"
 					+ " ORDER BY Lvemon";
 			
 			pstmt = conn.prepareStatement(sql);
