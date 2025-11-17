@@ -677,7 +677,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 	/**
 	올해 월별 고객의 상품 구매 수 총계 조회 리스트
 	@author	김설규
-	@return list
+	@return list<CustomerDetailDTO>
 	*/
 	@Override
 	public List<CustomerDetailDTO> MonthlyThisyearOrderCnt() {
@@ -713,7 +713,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ "    COUNT(*)"
 					+ " FROM order_Details"
 					+ " WHERE ORDER_DATE >= TRUNC(SYSDATE, 'YYYY')"
-					+ "	AND ORDER_DATE < ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12) "
+					+ "	AND ORDER_DATE < ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12)"
 					+ " ORDER BY Lvemon";
 			
 			pstmt = conn.prepareStatement(sql);
