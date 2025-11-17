@@ -31,10 +31,7 @@ public class AdminLoginUI {
 			dto.setEmail(br.readLine());
 			
 			System.out.print("주소 ? ");
-			dto.setAddress(br.readLine());
-			
-			System.out.print("id ? ");
-			dto.setCus_id(br.readLine());					
+			dto.setAddress(br.readLine());					
 
 			dao.updateMember(dto);
 

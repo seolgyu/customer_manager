@@ -14,7 +14,7 @@ public class LoginDAOImpl implements LoginDAO {
 	
 	// 데이터 입력
 	@Override
-	public void insertMember(LoginDTO dto) throws SQLException {
+	public boolean insertMember(LoginDTO dto){
 		PreparedStatement pstmt = null;
 		String sql;
 
@@ -22,7 +22,9 @@ public class LoginDAOImpl implements LoginDAO {
 		try {
 			conn.setAutoCommit(false);
 
-			sql = "INSERT INTO customer(cus_id, pwd, name, tel, email, address, reg, rrn, class_id, dormancy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+			sql = "INSERT INTO customer "
+		             + "(cus_id, pwd, name, tel, email, address, rrn, reg, class_id, dormancy) "
+		             + "VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE, DEFAULT, DEFAULT)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getCus_id());
@@ -31,32 +33,25 @@ public class LoginDAOImpl implements LoginDAO {
 			pstmt.setString(4, dto.getTel());
 			pstmt.setString(5, dto.getEmail());
 			pstmt.setString(6, dto.getAddress());
-			pstmt.setString(7, dto.getReg());
-			pstmt.setString(8, dto.getRrn());
-			pstmt.setString(9, dto.getClass_id());
-			pstmt.setString(10, dto.getDormancy());
+			pstmt.setString(7, dto.getRrn());
 
 			pstmt.executeUpdate();
 			pstmt.close();
 			pstmt = null;
 
 			conn.commit();
+			return true;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+            e.printStackTrace();
+            try { DBUtil.rollback(conn); } catch (Exception ex) { /* 무시 */ }
+            return false;
 
-			DBUtil.rollback(conn);
+        } finally {
+            DBUtil.close(pstmt);
+            try { conn.setAutoCommit(true); } catch (Exception ex) { /* 무시 */ }
+        }
+    }
 
-			throw e;
-		} finally {
-			DBUtil.close(pstmt);
-
-			try {
-				conn.setAutoCommit(true);
-			} catch (Exception e2) {
-			}
-		}
-	}
-	
 	// 데이터 수정
 	@Override
 	public void updateMember(LoginDTO dto) throws SQLException {

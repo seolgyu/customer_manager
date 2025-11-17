@@ -38,22 +38,16 @@ public class CustomerLoginUI {
 				System.out.println("주소 ? ");
 				dto.setAddress(br.readLine());
 				
-				System.out.println("등록일 ? ");
-				dto.setReg(br.readLine());
-				
 				System.out.println("주민번호 ? ");
-				dto.setRrn(br.readLine());
+				dto.setRrn(br.readLine());				
+								
+				boolean success = dao.insertMember(dto);
 				
-				System.out.println("등급아이디 ? ");
-				dto.setClass_id(br.readLine());
-				
-				System.out.println("휴면 ? ");
-				dto.setDormancy(br.readLine());
-				
-				dao.insertMember(dto);
-				
-				System.out.println("회원가입이 완료 되었습니다.");
-			
+				if (success) {
+		            System.out.println("회원가입이 완료 되었습니다.");
+		        } else {
+		            System.out.println("회원가입에 실패했습니다.");
+		        }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -68,9 +62,9 @@ public class CustomerLoginUI {
 			
 			try {
 	            System.out.print("아이디 ? ");
-	            id = br.readLine();
+	            id = br.readLine().trim();
 	            System.out.print("패스워드 ? ");
-	            pwd = br.readLine(); 				
+	            pwd = br.readLine().trim(); 				
 				
 				LoginDTO dto = null;
 				
