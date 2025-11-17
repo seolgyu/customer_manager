@@ -130,7 +130,8 @@ public class MainUI {
 			
 			switch(ch) {
 			case 1: manageUI.productList(); break;
-			case 2: manageUI.productBuy(); break;
+			case 2: manageUI.productList();
+					manageUI.productBuy(); break;
 			case 3: adminloginUI.update(); break;
 			case 4: login.logout(); System.out.println(); break;
 			case 5: customerUI.delete(); break;
