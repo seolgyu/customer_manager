@@ -713,7 +713,7 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 					+ "    COUNT(*)"
 					+ " FROM order_Details"
 					+ " WHERE ORDER_DATE >= TRUNC(SYSDATE, 'YYYY')"
-					+ "	AND ORDER_DATE < ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12)"
+					+ "	AND ORDER_DATE < ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12) "
 					+ " ORDER BY Lvemon";
 			
 			pstmt = conn.prepareStatement(sql);
