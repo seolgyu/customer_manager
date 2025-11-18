@@ -100,7 +100,11 @@ public class MainUI {
             try {
                 System.out.print("1.로그인 2.회원가입 3.종료 => ");
                 ch = Integer.parseInt(br.readLine());
-            } catch (Exception e) {}
+            } catch (NumberFormatException e) {
+		        System.out.println("숫자를 입력해주세요.");
+		    } catch (Exception e) {
+            	e.printStackTrace();
+            }
         } while (ch < 1 || ch > 3);
 
         if (ch == 3) {
@@ -136,7 +140,9 @@ public class MainUI {
 			case 4: login.logout(); System.out.println(); break;
 			case 5: customerUI.delete(); break;
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
+	        System.out.println("숫자를 입력해주세요.");
+	    } catch (Exception e) {
 		}
 	}
 
@@ -164,7 +170,9 @@ public class MainUI {
 			case 9: login.logout(); System.out.println(); break;
 			}
 			
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
+	        System.out.println("숫자를 입력해주세요.");
+	    } catch (Exception e) {
 			e.printStackTrace();
 		}		
 	}
@@ -198,6 +206,8 @@ public class MainUI {
 		        
 		        // menuCustomer(); // menuCustomer로 이동시 로직 꼬임 발생
 	 
+		    } catch (NumberFormatException e) {
+		        System.out.println("숫자를 입력해주세요.");
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }
