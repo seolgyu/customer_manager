@@ -112,15 +112,17 @@ public class CmUI {
 			return;
 		}
 		
-		System.out.println("아이디  마일리지ID 변동구문 변동마일리지 남은마일리지 날짜 ");
+		System.out.println("|| 아이디   마일리지ID   변동구문   변동마일리지  남은마일리지    날짜 ||");
 		
 			for(CmDTO dto : list) {
-				System.out.print(dto.getCus_id() + "\t");
-				System.out.print(dto.getMileage_id() + "\t");
-				System.out.print(dto.getMileage_yn() + "\t");
-				System.out.print(dto.getChange_mil() + "\t");
-				System.out.print(dto.getRemain_mil() + "\t");
-				System.out.println(dto.getMileage_date());
+				
+				System.out.printf("||%-6s", dto.getCus_id());
+				System.out.printf("%-10s", dto.getMileage_id());
+				System.out.printf("%-10s", dto.getMileage_yn());
+				System.out.printf("%-10s", dto.getChange_mil());
+				System.out.printf("%-10s", dto.getRemain_mil());
+				System.out.printf("%-10ss ||", dto.getMileage_date());
+				System.out.println();
 			
 		}
 			

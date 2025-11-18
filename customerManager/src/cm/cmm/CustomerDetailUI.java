@@ -572,12 +572,12 @@ public class CustomerDetailUI {
 	public void CustomerDormancyUnList() {
 		System.out.println("휴면 대상 고객 중 휴면처리가 되지 않은 고객 리스트");
 		List<CustomerDetailDTO> list = dao.CustomerDormancyUnList();
-		System.out.println("||고객ID		 이름		등급		고객의 가장 최근 로그인 날짜||");
+		System.out.println("||고객ID		 이름		등급		고객의 가장 최근 로그인 날짜 ||");
 		for(CustomerDetailDTO dto : list) {
 			System.out.printf("||%-15s", dto.getId());
 			System.out.printf("%-15s", dto.getName());
 			System.out.printf("%-16s", dto.getDormancy());
-			System.out.printf("%-10s", dto.getMax_log_date());
+			System.out.printf("%-10s  ||", dto.getMax_log_date());
 			System.out.println();
 		}
 		System.out.println("조회된 건 수 : " + list.size() + "건");
@@ -595,8 +595,8 @@ public class CustomerDetailUI {
 		for(CustomerDetailDTO dto : list) {
 			System.out.printf("||%-15s", dto.getId());
 			System.out.printf("%-15s", dto.getName());
-			System.out.printf("%-15s", dto.getMax_total_Cost());
-			System.out.printf("%-15s", dto.getClass_Id() + "등급");
+			System.out.printf("%-22s", dto.getMax_total_Cost());
+			System.out.printf("%-3s||", dto.getClass_Id() + "등급");
 			
 			System.out.println();
 		}
