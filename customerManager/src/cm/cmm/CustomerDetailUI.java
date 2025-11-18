@@ -484,7 +484,7 @@ public class CustomerDetailUI {
 			System.out.printf("%-10s", dto.getDormancy());
 			System.out.println();
 		}
-			System.out.println("조회된 건 수 : " + list.size() + "건");
+		System.out.println("조회된 건 수 : " + list.size() + "건 (전체: " + totalData + "건)");
 			System.out.println("----------------------------------------------------------------------------------");
 			System.out.printf("  페이지: %d / %d \n", page, totalPage);
 			System.out.print(" [P]이전  [N]다음  [숫자]페이지 이동  [M]메인 : ");
