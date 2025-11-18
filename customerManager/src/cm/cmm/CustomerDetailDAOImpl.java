@@ -677,7 +677,8 @@ public class CustomerDetailDAOImpl implements CustomerDetailDAO{
 	/**
 	올해 월별 고객의 상품 구매 수 총계 조회 리스트
 	@author	김설규
-	@return list<CustomerDetailDTO>
+	@param
+	@return list
 	*/
 	@Override
 	public List<CustomerDetailDTO> MonthlyThisyearOrderCnt() {
