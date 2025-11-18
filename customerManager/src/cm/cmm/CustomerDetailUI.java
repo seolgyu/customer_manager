@@ -29,11 +29,12 @@ public class CustomerDetailUI {
 		
 		while (starting) {
             try {
-                System.out.printf("|| 1.고객 전체 내역 조회 ||%n|| 2.고객 ID 조회 ||%n|| 3. 고객 이름 검색 ||%n|| 4.총 구매 금액 고객 검색 ||%n|| 5.고객 총 구매금액 범위 조건 조회 ||%n|| 6.고객 주문내역 ID조회 ||%n||"
-                		+ " 7. 일정 값 이상 마일리지 고객 조회 ||%n|| 8.고객 보유마일리지 범위 조건 조회 ||%n|| 9. 등급 통계 ||%n|| 10.생일 고객 조회 ||%n|| 11.년도, 월별 고객 상품 구매 수 ||%n|| 12. 올해 월별 고객 상품 구매 수 ||%n|| 13.상품별 구매 수 ||%n|| 14.로그인 기록 ||%n|| 15.뒤로가기");
+                System.out.printf("|| 1.고객 전체 내역 조회 %n|| 2.고객 ID 조회 %n|| 3.고객 이름 검색 %n|| 4.총 구매 금액 고객 검색 %n|| 5.고객 총 구매금액 범위 조건 조회 %n|| 6.고객 주문내역 ID조회 %n||"
+                		+ " 7.일정 값 이상 마일리지 고객 조회 %n|| 8.고객 보유마일리지 범위 조건 조회 %n|| 9.등급 통계 %n|| 10.생일 고객 조회 %n|| 11.년도, 월별 고객 상품 구매 수 %n|| 12.올해 월별 고객 상품 구매 수 %n|| 13.상품별 구매 수 %n|| 14.로그인 기록 %n|| 0.뒤로가기%n");
+                System.out.print("입력 => ");
                 ch = Integer.parseInt(br.readLine());
                  
-                if(ch == 15) {
+                if(ch == 0) {
                 	// new MainUI().menuCustomer();
                 	return;
                 }
@@ -83,7 +84,7 @@ public class CustomerDetailUI {
                     	break;
                 }
             } catch (NumberFormatException e) {
-            		e.printStackTrace();
+            		System.out.println("숫자를 입력해주세요");
             } catch (Exception e) {
             		e.printStackTrace();
             }
