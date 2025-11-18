@@ -24,7 +24,7 @@ public class CmUI {
 		
 		while(true) {
 			try {
-				System.out.println("1.고객수정 2.고객삭제 3.뒤로가기");
+				System.out.print("1.고객수정 2.고객삭제 3.뒤로가기 => ");
 				ch = Integer.parseInt(br.readLine());
 				
 				switch(ch) {
@@ -55,7 +55,8 @@ public class CmUI {
 		
 		while(true) {
 			try {
-				System.out.print("1.등급 상승 해당 고객조회 2.고객등급수정 3.휴면 해당 고객조회 4.휴먼처리 5.고객정보수정 6.마일리지추가 7.마일리지리스트 8.뒤로가기 ");
+				System.out.println("1.등급 상승 해당 고객조회 2.고객등급수정 3.휴면 해당 고객조회 4.휴먼처리 5.고객정보수정 6.마일리지추가 7.마일리지리스트 8.뒤로가기 ");
+				System.out.print("입력 => ");
 				ch = Integer.parseInt(br.readLine());
 				
 				if(ch == 8) {// 고객관리 화면으로 이동 
@@ -103,7 +104,7 @@ public class CmUI {
 		
 		
 		try {
-			System.out.print("검색할 아이디를 입력해주세요");
+			System.out.print("검색할 아이디를 입력해주세요 ");
 		cus_id = br.readLine();
 		
 		List<CmDTO> list = dao.listMileage(cus_id);
@@ -193,7 +194,7 @@ public class CmUI {
 		
 		try {
 					
-			System.out.print("추가할 회원 아이디 ?");
+			System.out.print("추가할 회원 아이디 ? ");
 			Cus_id = br.readLine();
 			dto.setCus_id(Cus_id);
 			
@@ -240,18 +241,18 @@ public class CmUI {
 			System.out.print("수정할 고객 아이디를 입력해주세요 ");
 			dto.setCus_id(br.readLine());
 			
-			System.out.print("수정할 전화번호를 입력해주세요");
+			System.out.print("수정할 전화번호를 입력해주세요 ");
 			dto.setTel(br.readLine());
 			
-			System.out.print("수정할 주소를 입력해주세요");
+			System.out.print("수정할 주소를 입력해주세요 ");
 			dto.setAddress(br.readLine());
 
-			System.out.print("수정할 이메일을 입력해주세요");
+			System.out.print("수정할 이메일을 입력해주세요 ");
 			dto.setEmail(br.readLine());
 			
 			
 			
-			System.out.println("수정할 고객등급을 입력해주세요");
+			System.out.println("수정할 고객등급을 입력해주세요 ");
 			do {
 				System.out.println("0에서 5사이의 숫자를 입력해주세요");
 				class_id = br.readLine();
@@ -261,9 +262,9 @@ public class CmUI {
 
 			
 			
-			System.out.print("수정할 휴면 등급을 입력해주세요");
+			System.out.print("수정할 휴면 등급을 입력해주세요 ");
 			do {
-				System.out.println("[Y] 나 [N] 중에 입력해주세요");
+				System.out.println("[Y] 나 [N] 중에 입력해주세요 ");
 				dormancy = br.readLine();
 				
 			} while(!dormancy.equals("Y") && !dormancy.equals("N"));
@@ -292,7 +293,7 @@ public class CmUI {
 		String id;
 		
 		try {
-			System.out.print("삭제할 고객의 아이디를 입력해주세요");
+			System.out.print("삭제할 고객의 아이디를 입력해주세요 ");
 			id = br.readLine();
 			
 			int result = dao.deleteCustomer(id);
